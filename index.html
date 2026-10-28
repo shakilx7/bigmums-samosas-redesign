@@ -1,0 +1,2346 @@
+<title>Big Mum's Samosas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/* ============================================================
+   Big Mum's Samosas — redesign prototype
+   Layout: warm editorial paper; full-bleed photography bands
+   alternate with content; a samosa "fold" triangle recurs as
+   the structural accent. Slim sticky header, right-side cart.
+   ============================================================ */
+:root{
+  /* palette — light (warm artisan) */
+  --paper:#FBF4E9;          /* warm ivory ground */
+  --paper-2:#F3E7D2;        /* kraft neutral band */
+  --card:#FFFCF6;           /* lifted card surface */
+  --ink:#2A1C12;            /* espresso text */
+  --ink-soft:#71604F;       /* muted secondary */
+  --line:rgba(42,28,18,.14);
+  --terra:#f6ad74;          /* primary — warm peach fill (buttons, accents) */
+  --terra-deep:#b45309;     /* deeper same-hue orange — readable text/links on light */
+  --terra-hover:#ec9450;    /* button hover fill (keeps dark text readable) */
+  --on-terra:#2A1C12;       /* text/icon colour on a peach fill */
+  --gold:#D4873A;           /* warm orange secondary */
+  --peach:#F1CDA6;          /* muted peach fill */
+  --peach-soft:#F8E4CE;
+  --ok:#3C6E4A; --warn:#9B5B12;
+  --shadow:0 1px 2px rgba(42,28,18,.05),0 10px 30px -14px rgba(42,28,18,.22);
+  --shadow-lg:0 24px 60px -24px rgba(42,28,18,.42);
+  --rad:14px; --rad-lg:22px;
+  --maxw:1200px;
+  --font-d:"Fraunces",Georgia,"Times New Roman",serif;
+  --font-b:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#1A130E; --paper-2:#211810; --card:#241A12;
+  --ink:#F4E8D6; --ink-soft:#B7A389; --line:rgba(244,232,214,.16);
+  --terra:#f6ad74; --terra-deep:#f8bd8c; --terra-hover:#f0a05c; --on-terra:#2A1C12; --gold:#E2A05C;
+  --peach:#6A4A32; --peach-soft:#3A2A1D;
+  --ok:#6FB07E; --warn:#D79A4A;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.6);
+  --shadow-lg:0 24px 60px -24px rgba(0,0,0,.75);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#1A130E; --paper-2:#211810; --card:#241A12;
+  --ink:#F4E8D6; --ink-soft:#B7A389; --line:rgba(244,232,214,.16);
+  --terra:#f6ad74; --terra-deep:#f8bd8c; --terra-hover:#f0a05c; --on-terra:#2A1C12; --gold:#E2A05C;
+  --peach:#6A4A32; --peach-soft:#3A2A1D;
+  --ok:#6FB07E; --warn:#D79A4A;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.6);
+  --shadow-lg:0 24px 60px -24px rgba(0,0,0,.75);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-b);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
+h1,h2,h3,h4{font-family:var(--font-d);font-weight:600;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+:focus-visible{outline:2.5px solid var(--terra-deep);outline-offset:3px;border-radius:4px}
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--terra-deep);display:inline-flex;align-items:center;gap:.5em}
+.eyebrow::before{content:"";width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid var(--terra-deep);transform:translateY(1px)}
+.muted{color:var(--ink-soft)}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;font-weight:600;font-size:.95rem;padding:.8em 1.4em;border-radius:999px;transition:transform .12s ease,background .18s ease,box-shadow .18s ease;border:1.5px solid transparent;text-align:center;line-height:1.1}
+.btn-primary{background:var(--terra);color:var(--on-terra)}
+.btn-primary:hover{background:var(--terra-hover)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--ink);background:color-mix(in srgb,var(--ink) 4%,transparent)}
+.btn-dark{background:var(--ink);color:var(--paper)}
+.btn-dark:hover{background:color-mix(in srgb,var(--ink) 86%,#000)}
+.btn:active{transform:translateY(1px)}
+.btn-block{width:100%}
+.btn-lg{padding:.95em 1.7em;font-size:1rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+
+/* skip link */
+.skip{position:absolute;left:-999px;top:0;z-index:200;background:var(--ink);color:var(--paper);padding:.7em 1.1em;border-radius:0 0 10px 0}
+.skip:focus{left:0}
+
+/* ---- top announcement ---- */
+#ann{background:var(--ink);color:var(--paper-2)}
+#ann .wrap{display:flex;align-items:center;justify-content:center;gap:.9em;padding-block:.5em;font-size:.82rem;font-weight:500;text-align:center;flex-wrap:wrap}
+#ann strong{color:#fff;font-weight:700}
+#ann .dot{width:4px;height:4px;border-radius:50%;background:var(--gold);flex:none}
+#ann a{color:var(--gold);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+
+/* ---- header ---- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--paper)}
+header#top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:saturate(1.1) blur(10px);border-bottom:1px solid var(--line)}
+header#top .wrap{display:flex;align-items:center;gap:1rem;padding-block:.65rem;min-height:60px}
+.brand{display:flex;align-items:center;gap:.6rem;flex:none}
+.brand img{height:40px;width:auto}
+.brand .logo-dark{display:none}
+:root[data-theme="dark"] .brand .logo-light{display:none}
+:root[data-theme="dark"] .brand .logo-dark{display:block}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .brand .logo-light{display:none}:root:not([data-theme="light"]) .brand .logo-dark{display:block}}
+nav.main{display:flex;gap:.3rem;margin-left:auto;align-items:center}
+nav.main a{font-weight:600;font-size:.92rem;padding:.5em .7em;border-radius:8px;color:var(--ink);position:relative}
+nav.main a:hover{color:var(--terra-deep)}
+nav.main a[aria-current="page"]{color:var(--terra-deep)}
+nav.main a[aria-current="page"]::after{content:"";position:absolute;left:.7em;right:.7em;bottom:.22em;height:2px;background:var(--terra);border-radius:2px}
+.head-actions{display:flex;align-items:center;gap:.35rem;margin-left:.4rem}
+.icon-btn{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;color:var(--ink);position:relative}
+.icon-btn:hover{background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.icon-btn svg{width:22px;height:22px}
+.cart-count{position:absolute;top:4px;right:4px;background:var(--terra);color:var(--on-terra);font-size:.66rem;font-weight:700;min-width:17px;height:17px;border-radius:9px;display:grid;place-items:center;padding:0 4px;line-height:1;font-family:var(--font-b)}
+.cart-count:empty,.cart-count[data-n="0"]{display:none}
+.menu-btn{display:none}
+nav.main .nav-ctas{display:none}
+
+@media (max-width:900px){
+  nav.main{position:fixed;inset:0;top:0;background:var(--paper);flex-direction:column;align-items:stretch;gap:0;padding:0;margin:0;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:120;overflow-y:auto}
+  nav.main.open{transform:none}
+  nav.main .m-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid var(--line)}
+  nav.main a{font-family:var(--font-d);font-size:1.4rem;padding:.75em 1.3rem;border-bottom:1px solid var(--line)}
+  nav.main a[aria-current="page"]::after{display:none}
+  nav.main .nav-ctas{display:flex;flex-direction:column;gap:.7rem;padding:1.3rem}
+  .menu-btn{display:grid}
+}
+@media (min-width:901px){ nav.main .m-head{display:none} }
+
+/* ---- trust strip ---- */
+.trust{border-block:1px solid var(--line);background:var(--paper)}
+.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;padding:0}
+.trust .item{display:flex;gap:.75rem;align-items:flex-start;padding:1.1rem clamp(.5rem,2vw,1.4rem)}
+.trust .item+.item{border-left:1px solid var(--line)}
+.trust svg{width:26px;height:26px;color:var(--terra-deep);flex:none;margin-top:2px}
+.trust b{font-size:.92rem;display:block}
+.trust small{font-size:.8rem;color:var(--ink-soft);line-height:1.35}
+@media (max-width:760px){.trust .wrap{grid-template-columns:1fr 1fr}.trust .item:nth-child(3){border-left:none}.trust .item:nth-child(n+3){border-top:1px solid var(--line)}}
+@media (max-width:420px){.trust .wrap{grid-template-columns:1fr}.trust .item+.item{border-left:none;border-top:1px solid var(--line)}}
+
+/* ---- section scaffold ---- */
+section.band{padding-block:clamp(3rem,7vw,5.5rem)}
+.band.alt{background:var(--paper-2)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+.sec-head h2{font-size:clamp(1.9rem,4.2vw,2.9rem)}
+.sec-head p{color:var(--ink-soft);max-width:48ch;margin-top:.5rem}
+.sec-head .link{color:var(--terra-deep);font-weight:600;font-size:.92rem;white-space:nowrap}
+.sec-head .link:hover{text-decoration:underline}
+
+/* ---- product grid / cards ---- */
+.grid{display:grid;gap:clamp(1rem,2.2vw,1.6rem)}
+.grid.c4{grid-template-columns:repeat(4,1fr)}
+.grid.c3{grid-template-columns:repeat(3,1fr)}
+.grid.c2{grid-template-columns:repeat(2,1fr)}
+@media (max-width:1000px){.grid.c4{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:820px){.grid.c4,.grid.c3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.grid.c4,.grid.c3,.grid.c2{grid-template-columns:repeat(2,1fr);gap:.9rem}}
+@media (max-width:380px){.grid.c4,.grid.c3,.grid.c2{grid-template-columns:1fr}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);overflow:hidden;display:flex;flex-direction:column;transition:transform .16s ease,box-shadow .18s ease;position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.card .thumb{aspect-ratio:1/1;background:var(--peach-soft);overflow:hidden;position:relative;cursor:pointer}
+.card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.card:hover .thumb img{transform:scale(1.04)}
+.card .tags{position:absolute;top:.6rem;left:.6rem;display:flex;gap:.3rem;flex-wrap:wrap;max-width:85%}
+.chip{font-size:.66rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:.28em .6em;border-radius:999px;background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.chip.veg{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,transparent)}
+.chip.sweet{color:var(--gold);border-color:color-mix(in srgb,var(--gold) 50%,transparent)}
+.chip.season{background:var(--terra);color:var(--on-terra);border-color:transparent}
+.card .body{padding:.9rem 1rem 1.05rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.card h3{font-size:1.12rem;cursor:pointer;line-height:1.12}
+.card h3:hover{color:var(--terra-deep)}
+.card .desc{font-size:.84rem;color:var(--ink-soft);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .meta{font-size:.76rem;color:var(--ink-soft);display:flex;gap:.5rem;align-items:center}
+.card .foot{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-top:auto;padding-top:.3rem}
+.price{font-family:var(--font-d);font-weight:600;font-size:1.25rem;font-variant-numeric:tabular-nums}
+.price .per{font-family:var(--font-b);font-size:.72rem;color:var(--ink-soft);font-weight:500}
+.add-btn{background:var(--ink);color:var(--paper);border-radius:999px;padding:.52em .9em;font-size:.82rem;font-weight:600;display:inline-flex;gap:.4em;align-items:center;transition:background .15s}
+.add-btn:hover{background:var(--terra);color:var(--on-terra)}
+.add-btn svg{width:15px;height:15px}
+.card .soldout{position:absolute;inset:0;background:color-mix(in srgb,var(--paper) 72%,transparent);display:grid;place-items:center;font-family:var(--font-d);font-weight:600;color:var(--ink);backdrop-filter:blur(1px)}
+
+/* ---- "find your box" comparison ---- */
+.boxrow{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+@media (max-width:820px){.boxrow{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.boxrow{grid-template-columns:1fr}}
+.boxcard{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:1.3rem 1.2rem;display:flex;flex-direction:column;gap:.5rem;position:relative;overflow:hidden}
+.boxcard.feat{border-color:var(--terra-deep);box-shadow:0 0 0 1px var(--terra)}
+.boxcard .flag{position:absolute;top:0;right:0;background:var(--terra);color:var(--on-terra);font-size:.66rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:.3em .7em;border-radius:0 0 0 10px}
+.boxcard .qty{font-family:var(--font-d);font-size:2.6rem;line-height:1;color:var(--terra-deep)}
+.boxcard .qty span{font-size:1rem;color:var(--ink-soft);font-family:var(--font-b);font-weight:600}
+.boxcard .for{font-size:.84rem;color:var(--ink-soft);min-height:2.4em}
+.boxcard .pr{font-family:var(--font-d);font-size:1.3rem;margin-top:.2rem}
+.boxcard .pr small{font-family:var(--font-b);font-size:.72rem;color:var(--ink-soft);display:block;font-weight:500}
+
+/* ---- founder ---- */
+.founder{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
+.founder .pic{border-radius:var(--rad-lg);overflow:hidden;aspect-ratio:4/5;box-shadow:var(--shadow);background:var(--peach-soft)}
+.founder .pic img{width:100%;height:100%;object-fit:cover}
+.founder h2{font-size:clamp(2rem,4.5vw,3.1rem);margin-bottom:.3rem}
+.founder .lead{font-size:1.1rem;margin:1rem 0;line-height:1.5}
+.founder p+p{margin-top:.8rem;color:var(--ink-soft)}
+.pull{font-family:var(--font-d);font-style:italic;font-size:1.3rem;color:var(--terra-deep);border-left:3px solid var(--terra);padding-left:1rem;margin:1.3rem 0}
+@media (max-width:760px){.founder{grid-template-columns:1fr}.founder .pic{max-height:60vh}}
+
+/* ---- flavours explorer ---- */
+.flav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem}
+@media (max-width:900px){.flav-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:620px){.flav-grid{grid-template-columns:repeat(2,1fr)}}
+.flav{position:relative;border-radius:var(--rad);overflow:hidden;aspect-ratio:3/4;cursor:pointer;background:var(--peach-soft)}
+.flav img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.flav:hover img{transform:scale(1.06)}
+.flav .ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:.9rem;background:linear-gradient(to top,rgba(26,16,8,.82) 8%,rgba(26,16,8,.1) 55%,transparent)}
+.flav .ov h4{color:#fff;font-size:1.05rem}
+.flav .ov small{color:rgba(255,255,255,.82);font-size:.74rem}
+
+/* ---- how it works ---- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;counter-reset:s}
+@media (max-width:720px){.steps{grid-template-columns:1fr;gap:1rem}}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:1.5rem 1.3rem;position:relative}
+.step .n{font-family:var(--font-d);font-size:1rem;font-weight:700;color:var(--terra-deep);display:inline-flex;align-items:center;gap:.5em;margin-bottom:.6rem}
+.step .n::before{counter-increment:s;content:counter(s);width:30px;height:30px;border-radius:50%;background:var(--peach-soft);display:grid;place-items:center;font-size:.95rem}
+.step h4{font-size:1.15rem;margin-bottom:.35rem}
+.step p{font-size:.88rem;color:var(--ink-soft)}
+
+/* ---- feature (catering) split ---- */
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:var(--rad-lg);overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.feature .ph{min-height:320px;background:var(--peach-soft)}
+.feature .ph img{width:100%;height:100%;object-fit:cover}
+.feature .tx{padding:clamp(1.6rem,3vw,2.6rem);display:flex;flex-direction:column;justify-content:center;gap:.8rem}
+.feature h2{font-size:clamp(1.7rem,3.6vw,2.5rem)}
+.feature ul{list-style:none;padding:0;margin:.3rem 0;display:flex;flex-wrap:wrap;gap:.5rem}
+.feature li{font-size:.82rem;background:var(--peach-soft);border-radius:999px;padding:.3em .8em;color:var(--ink)}
+@media (max-width:760px){.feature{grid-template-columns:1fr}.feature .ph{min-height:230px;order:-1}}
+
+/* ---- chutney row ---- */
+.chut{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(1.3rem,3vw,2.5rem);align-items:center}
+.chut .jars{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+.chut .jar{border-radius:var(--rad);overflow:hidden;aspect-ratio:1/1;background:var(--card);border:1px solid var(--line)}
+.chut .jar img{width:100%;height:100%;object-fit:cover}
+@media (max-width:720px){.chut{grid-template-columns:1fr}}
+
+/* ---- reviews / social proof ---- */
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media (max-width:820px){.notes{grid-template-columns:1fr}}
+.note{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:1.3rem}
+.note .stars{color:var(--gold);letter-spacing:2px;font-size:.95rem}
+.note p{font-size:.95rem;margin:.6rem 0;line-height:1.5}
+.note .src{font-size:.78rem;color:var(--ink-soft);font-weight:600}
+.proof-note{font-size:.78rem;color:var(--ink-soft);margin-top:1rem;text-align:center;font-style:italic}
+
+/* ---- google reviews marquee (auto right-to-left) ---- */
+.rev-wrap{position:relative;overflow:hidden;--gap:1.1rem;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.rev-track{display:flex;gap:var(--gap);width:max-content;animation:revscroll 48s linear infinite}
+.rev-wrap:hover .rev-track{animation-play-state:paused}
+@keyframes revscroll{from{transform:translateX(0)}to{transform:translateX(calc(-50% - var(--gap)/2))}}
+.rev-card{width:330px;flex:none;background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:1.2rem 1.25rem;display:flex;flex-direction:column;gap:.7rem;box-shadow:var(--shadow)}
+.rev-top{display:flex;align-items:center;gap:.7rem}
+.rev-av{width:42px;height:42px;border-radius:50%;background:var(--peach-soft);display:grid;place-items:center;font-family:var(--font-d);font-weight:600;font-size:1.05rem;color:var(--terra-deep);flex:none}
+.rev-id b{font-size:.92rem;display:block;line-height:1.1}
+.rev-id small{font-size:.72rem;color:var(--ink-soft)}
+.rev-g{margin-left:auto;width:22px;height:22px;flex:none}
+.rev-stars{color:#FBBC04;letter-spacing:1.5px;font-size:.98rem;line-height:1}
+.rev-text{font-size:.88rem;color:var(--ink);line-height:1.5}
+.rev-src{display:inline-flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--ink-soft);justify-content:center;margin-top:.9rem}
+.rev-src svg{width:18px;height:18px}
+@media (prefers-reduced-motion:reduce){.rev-track{animation:none}.rev-wrap{overflow-x:auto}}
+
+/* ---- email signup ---- */
+.signup{color:var(--on-terra);border-radius:var(--rad-lg);padding:clamp(2.2rem,5vw,3.6rem);text-align:center;position:relative;overflow:hidden;border:1px solid color-mix(in srgb,var(--on-terra) 12%,transparent);box-shadow:var(--shadow-lg);
+  background:
+    radial-gradient(130% 120% at 50% 6%,rgba(255,250,240,.32) 0%,transparent 42%),
+    radial-gradient(90% 90% at 88% 96%,color-mix(in srgb,var(--gold) 70%,transparent) 0%,transparent 55%),
+    radial-gradient(70% 80% at 6% 92%,color-mix(in srgb,#e06a2c 65%,transparent) 0%,transparent 52%),
+    linear-gradient(135deg,var(--terra) 0%,#ef9048 48%,var(--gold) 100%)}
+/* decorative samosa-fold art layer */
+.signup-art{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.signup::after{content:"";position:absolute;inset:10px;border:1.5px dashed color-mix(in srgb,#fff 55%,transparent);border-radius:calc(var(--rad-lg) - 6px);pointer-events:none;z-index:0}
+.signup h2,.signup p,.signup form,.signup .consent{position:relative;z-index:1}
+.signup h2{text-shadow:0 1px 10px rgba(20,12,6,.14)}
+.signup h2{color:var(--on-terra);font-size:clamp(1.7rem,3.6vw,2.7rem)}
+.signup p{color:color-mix(in srgb,var(--on-terra) 78%,transparent);max-width:46ch;margin:.7rem auto 1.4rem}
+.signup form{display:flex;gap:.6rem;max-width:480px;margin-inline:auto;flex-wrap:wrap}
+.signup input[type=email]{flex:1;min-width:200px;padding:.9em 1.2em;border-radius:999px;border:1.5px solid transparent;background:var(--card);color:var(--ink);font-size:.95rem;box-shadow:0 6px 18px -10px rgba(20,12,6,.4)}
+.signup input::placeholder{color:var(--ink-soft)}
+.signup input[type=email]:focus-visible{outline-color:var(--on-terra)}
+.signup .btn-primary{background:#241610;color:#fff}
+.signup .btn-primary:hover{background:#000}
+.signup .consent{font-size:.72rem;color:color-mix(in srgb,var(--on-terra) 62%,transparent);margin-top:1rem;max-width:44ch;margin-inline:auto}
+/* samosa art marks */
+.signup-art .fill{fill:#fff;fill-opacity:.12}
+.signup-art .fill-deep{fill:#5e2510;fill-opacity:.1}
+.signup-art .ln{fill:none;stroke:#fff;stroke-opacity:.2;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.signup-art .ln-fold{fill:none;stroke:#fff;stroke-opacity:.28;stroke-width:1.5;stroke-linecap:round}
+.signup-art .steam{fill:none;stroke:#fff;stroke-opacity:.3;stroke-width:2;stroke-linecap:round}
+.signup-art .dot{fill:#fff;fill-opacity:.22}
+.signup-art .dot-d{fill:#5e2510;fill-opacity:.14}
+
+/* ---- footer ---- */
+footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:clamp(2.5rem,5vw,3.5rem) 1.5rem;margin-top:clamp(2rem,5vw,4rem)}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:clamp(1.2rem,3vw,2.5rem)}
+@media (max-width:820px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:460px){.foot-grid{grid-template-columns:1fr}}
+.foot-grid h5{font-family:var(--font-b);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 .9rem}
+.foot-grid a,.foot-grid .fitem{display:block;font-size:.9rem;color:var(--ink);padding:.22em 0}
+.foot-grid a:hover{color:var(--terra-deep)}
+.foot-brand img{height:42px;margin-bottom:.8rem}
+.foot-brand p{font-size:.86rem;color:var(--ink-soft);max-width:30ch}
+.socials{display:flex;gap:.6rem;margin-top:1rem}
+.socials a{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;display:grid;place-items:center}
+.socials a:hover{border-color:var(--terra-deep);color:var(--terra-deep)}
+.socials svg{width:18px;height:18px}
+.foot-bottom{border-top:1px solid var(--line);margin-top:2rem;padding-top:1.2rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.78rem;color:var(--ink-soft)}
+
+/* ---- breadcrumb ---- */
+.crumbs{font-size:.82rem;color:var(--ink-soft);padding-top:1.2rem;display:flex;gap:.5em;align-items:center;flex-wrap:wrap}
+.crumbs a:hover{color:var(--terra-deep)}
+.crumbs .sep{opacity:.5}
+
+/* ---- shop toolbar ---- */
+.shop-head{padding-block:1.8rem 1rem}
+.shop-head h1{font-size:clamp(2rem,5vw,3rem)}
+.toolbar{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin:1.3rem 0 1.8rem}
+.filter-group{display:flex;gap:.4rem;flex-wrap:wrap}
+.pill{font-size:.82rem;font-weight:600;padding:.5em .95em;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);transition:all .14s;white-space:nowrap}
+.pill:hover{border-color:var(--ink)}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.toolbar .spacer{margin-left:auto}
+.toolbar select{font:inherit;font-size:.85rem;padding:.55em .9em;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
+.cat-head{font-family:var(--font-d);font-size:1.4rem;margin:2rem 0 1rem;display:flex;align-items:center;gap:.6rem}
+.cat-head::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ---- product detail ---- */
+.pdp{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(1.5rem,4vw,3.5rem);padding-top:1.5rem;align-items:start}
+@media (max-width:860px){.pdp{grid-template-columns:1fr;gap:1.6rem}}
+.gallery .main{aspect-ratio:1/1;border-radius:var(--rad-lg);overflow:hidden;background:var(--peach-soft);border:1px solid var(--line)}
+.gallery .main img{width:100%;height:100%;object-fit:cover}
+.gallery .thumbs{display:flex;gap:.6rem;margin-top:.8rem;flex-wrap:wrap}
+.gallery .thumbs button{width:70px;height:70px;border-radius:10px;overflow:hidden;border:2px solid var(--line);background:var(--peach-soft)}
+.gallery .thumbs button[aria-current="true"]{border-color:var(--terra-deep)}
+.gallery .thumbs img{width:100%;height:100%;object-fit:cover}
+.pdp-info h1{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:.4rem}
+.pdp-price{font-family:var(--font-d);font-size:1.8rem;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:.6rem;margin:.2rem 0 1rem}
+.pdp-price .per{font-family:var(--font-b);font-size:.82rem;color:var(--ink-soft);font-weight:500}
+.avail{display:inline-flex;align-items:center;gap:.4em;font-size:.82rem;font-weight:600;color:var(--ok)}
+.avail::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.avail.no{color:var(--ink-soft)}.avail.no::before{background:var(--ink-soft)}
+.pdp-desc{font-size:1.02rem;color:var(--ink-soft);line-height:1.55;margin-bottom:1.2rem}
+.qty-row{display:flex;gap:.8rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap}
+.stepper{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
+.stepper button{width:42px;height:44px;font-size:1.2rem;display:grid;place-items:center;color:var(--ink)}
+.stepper button:hover{background:var(--peach-soft)}
+.stepper input{width:46px;text-align:center;border:none;background:transparent;font:inherit;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.pdp-dietary{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+.deliv-sum{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--rad);padding:.9rem 1.1rem;font-size:.85rem;color:var(--ink-soft);display:flex;gap:.7rem;align-items:flex-start;margin-top:1.1rem}
+.deliv-sum svg{width:20px;height:20px;color:var(--terra-deep);flex:none;margin-top:1px}
+/* accordions */
+.acc{border-top:1px solid var(--line);margin-top:1.6rem}
+.acc details{border-bottom:1px solid var(--line)}
+.acc summary{list-style:none;cursor:pointer;padding:1rem 0;font-weight:600;font-size:1rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";font-size:1.4rem;color:var(--terra-deep);font-weight:400;transition:transform .2s}
+.acc details[open] summary::after{content:"–"}
+.acc .ac-body{padding:0 0 1.1rem;font-size:.92rem;color:var(--ink-soft);line-height:1.55}
+.acc .ac-body ul{margin:.4rem 0;padding-left:1.1rem}
+.allergen-grid{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.3rem}
+.allergen-grid .a{font-size:.78rem;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:.3em .6em;font-weight:600}
+
+/* sticky mobile add */
+.sticky-add{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--card);border-top:1px solid var(--line);padding:.7rem max(16px,env(safe-area-inset-left,0px));padding-bottom:calc(.7rem + env(safe-area-inset-bottom,0px));display:none;gap:.8rem;align-items:center;box-shadow:0 -8px 24px -16px rgba(42,28,18,.4)}
+.sticky-add .p{font-family:var(--font-d);font-size:1.2rem;flex:none}
+.sticky-add .btn{flex:1}
+@media (max-width:860px){.sticky-add.show{display:flex}}
+
+/* ---- box builder ---- */
+.builder{display:grid;grid-template-columns:1fr 340px;gap:clamp(1.5rem,3vw,2.5rem);align-items:start;padding-top:1.5rem}
+@media (max-width:900px){.builder{grid-template-columns:1fr}}
+.bb-note{background:var(--peach-soft);border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);border-radius:var(--rad);padding:.9rem 1.1rem;font-size:.85rem;color:var(--ink);display:flex;gap:.6rem;margin-bottom:1.4rem}
+.bb-note svg{width:20px;height:20px;color:var(--gold);flex:none;margin-top:1px}
+.size-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.size-tabs button{flex:1;min-width:90px;border:1.5px solid var(--line);background:var(--card);border-radius:var(--rad);padding:.9rem;text-align:center;transition:all .14s}
+.size-tabs button[aria-pressed="true"]{border-color:var(--terra-deep);background:var(--peach-soft)}
+.size-tabs .sz{font-family:var(--font-d);font-size:1.5rem;color:var(--terra-deep);line-height:1}
+.size-tabs small{font-size:.74rem;color:var(--ink-soft);display:block;margin-top:.2rem}
+.bb-flavs{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
+@media (max-width:520px){.bb-flavs{grid-template-columns:1fr}}
+.bb-flav{display:flex;gap:.8rem;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:.6rem}
+.bb-flav img{width:58px;height:58px;border-radius:10px;object-fit:cover;flex:none;background:var(--peach-soft)}
+.bb-flav .fi{flex:1;min-width:0}
+.bb-flav .fi b{font-size:.9rem;display:block}
+.bb-flav .fi small{font-size:.72rem;color:var(--ink-soft)}
+.bb-step{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:999px}
+.bb-step button{width:32px;height:32px;font-size:1.1rem;display:grid;place-items:center;color:var(--ink)}
+.bb-step button:hover:not([disabled]){background:var(--peach-soft)}
+.bb-step button[disabled]{opacity:.3;cursor:not-allowed}
+.bb-step span{width:30px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.bb-panel{background:var(--card);border:1px solid var(--line);border-radius:var(--rad-lg);padding:1.4rem;position:sticky;top:90px}
+.bb-ring{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.ring{--p:0;width:72px;height:72px;border-radius:50%;flex:none;background:conic-gradient(var(--terra) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center}
+.ring .inner{width:58px;height:58px;border-radius:50%;background:var(--card);display:grid;place-items:center;text-align:center;line-height:1}
+.ring .inner b{font-family:var(--font-d);font-size:1.3rem}
+.ring .inner small{font-size:.6rem;color:var(--ink-soft)}
+.bb-summary{font-size:.86rem;color:var(--ink-soft);margin-bottom:.4rem}
+.bb-list{font-size:.84rem;margin:.6rem 0;display:flex;flex-direction:column;gap:.3rem;max-height:160px;overflow:auto}
+.bb-list .r{display:flex;justify-content:space-between;gap:.5rem}
+.bb-total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:.8rem;margin-top:.5rem}
+.bb-total .price{font-size:1.5rem}
+.bb-allergens{font-size:.74rem;color:var(--ink-soft);margin-top:.7rem;line-height:1.4}
+.bb-valid{font-size:.8rem;margin:.6rem 0;font-weight:600}
+.bb-valid.ok{color:var(--ok)} .bb-valid.no{color:var(--warn)}
+
+/* ---- simple content pages ---- */
+.page-hero{background:var(--paper-2);border-bottom:1px solid var(--line);padding-block:clamp(2rem,5vw,3.2rem)}
+.page-hero h1{font-size:clamp(2.1rem,5vw,3.4rem)}
+.page-hero p{color:var(--ink-soft);max-width:52ch;margin-top:.6rem;font-size:1.05rem}
+.prose{max-width:70ch}
+.prose h3{font-size:1.4rem;margin:1.8rem 0 .6rem}
+.prose p{margin:.7rem 0;line-height:1.65}
+.prose ul{margin:.7rem 0;padding-left:1.2rem;line-height:1.6}
+.prose li{margin:.3rem 0}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
+@media (max-width:720px){.info-grid{grid-template-columns:1fr}}
+.info-card{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:1.3rem}
+.info-card .ic{width:40px;height:40px;border-radius:10px;background:var(--peach-soft);display:grid;place-items:center;color:var(--terra-deep);margin-bottom:.7rem}
+.info-card .ic svg{width:22px;height:22px}
+.info-card h4{font-size:1.1rem;margin-bottom:.3rem}
+.info-card p{font-size:.88rem;color:var(--ink-soft)}
+.deliv-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.92rem}
+.deliv-table th,.deliv-table td{text-align:left;padding:.7rem .6rem;border-bottom:1px solid var(--line)}
+.deliv-table th{font-family:var(--font-b);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.deliv-table td:last-child{font-weight:600;white-space:nowrap}
+
+/* postcode checker */
+.pc-check{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:1.2rem;max-width:460px}
+.pc-check form{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap}
+.pc-check input{flex:1;min-width:150px;padding:.7em 1em;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;text-transform:uppercase}
+.pc-result{margin-top:.8rem;font-size:.9rem;font-weight:600;min-height:1.2em}
+.pc-result.ok{color:var(--ok)} .pc-result.no{color:var(--warn)}
+
+/* stockists */
+.stk-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin-top:1rem}
+@media (max-width:620px){.stk-list{grid-template-columns:1fr}}
+.stk{display:flex;align-items:center;gap:.8rem;background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:.9rem 1.1rem}
+.stk .pin{width:34px;height:34px;border-radius:9px;background:var(--peach-soft);color:var(--terra-deep);display:grid;place-items:center;flex:none}
+.stk .pin svg{width:18px;height:18px}
+.stk b{font-size:.95rem} .stk small{font-size:.78rem;color:var(--ink-soft)}
+
+/* forms (catering) */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:620px){.form-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:.35rem}
+.field.full{grid-column:1/-1}
+.field label{font-size:.82rem;font-weight:600}
+.field label .req{color:var(--terra-deep)}
+.field input,.field select,.field textarea{font:inherit;font-size:.95rem;padding:.7em .9em;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);width:100%}
+.field textarea{min-height:100px;resize:vertical}
+.field .err{font-size:.76rem;color:var(--warn);font-weight:600;display:none}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--warn)}
+.field.invalid .err{display:block}
+.form-success{background:color-mix(in srgb,var(--ok) 12%,var(--card));border:1px solid color-mix(in srgb,var(--ok) 45%,transparent);border-radius:var(--rad);padding:1.5rem;text-align:center}
+.form-success .ic{width:52px;height:52px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;margin:0 auto .8rem}
+.form-success h3{color:var(--ok)}
+
+/* ---- cart drawer ---- */
+.overlay{position:fixed;inset:0;background:rgba(26,16,8,.5);z-index:150;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.overlay.open{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--paper);z-index:160;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
+.drawer.open{transform:none}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.3rem;border-bottom:1px solid var(--line);flex:none}
+.drawer-head h2{font-size:1.3rem}
+.drawer-head .close{width:38px;height:38px;border-radius:9px;display:grid;place-items:center}
+.drawer-head .close:hover{background:var(--peach-soft)}
+.free-bar{padding:.9rem 1.3rem;background:var(--paper-2);border-bottom:1px solid var(--line);flex:none}
+.free-bar .msg{font-size:.82rem;margin-bottom:.5rem}
+.free-bar .msg b{color:var(--terra-deep)}
+.free-track{height:7px;border-radius:999px;background:var(--line);overflow:hidden}
+.free-track .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--terra));border-radius:999px;transition:width .4s ease;width:0}
+.cart-items{flex:1;overflow-y:auto;padding:1rem 1.3rem;display:flex;flex-direction:column;gap:1rem}
+.cart-empty{text-align:center;color:var(--ink-soft);padding:3rem 1rem;display:flex;flex-direction:column;gap:1rem;align-items:center}
+.cart-empty svg{width:54px;height:54px;color:var(--line)}
+.ci{display:flex;gap:.9rem}
+.ci img{width:72px;height:72px;border-radius:10px;object-fit:cover;flex:none;background:var(--peach-soft);border:1px solid var(--line)}
+.ci .cd{flex:1;min-width:0;display:flex;flex-direction:column;gap:.3rem}
+.ci .cd b{font-size:.92rem;line-height:1.2}
+.ci .cd .sub{font-size:.76rem;color:var(--ink-soft)}
+.ci .cd .pr{font-weight:600;font-family:var(--font-d);font-size:1rem}
+.ci .crow{display:flex;justify-content:space-between;align-items:center;margin-top:.2rem}
+.ci .mini-step{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px}
+.ci .mini-step button{width:28px;height:28px;display:grid;place-items:center;font-size:1rem}
+.ci .mini-step span{width:26px;text-align:center;font-size:.85rem;font-weight:700}
+.ci .rm{font-size:.76rem;color:var(--ink-soft);text-decoration:underline}
+.ci .rm:hover{color:var(--warn)}
+.ci .flav-detail{font-size:.72rem;color:var(--ink-soft);line-height:1.3}
+.custom-tag{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--gold);background:color-mix(in srgb,var(--gold) 16%,transparent);padding:.2em .5em;border-radius:6px;align-self:flex-start}
+.gift-msg{padding:0 1.3rem 1rem;flex:none}
+.gift-msg summary{font-size:.82rem;font-weight:600;cursor:pointer;color:var(--terra-deep);list-style:none}
+.gift-msg summary::-webkit-details-marker{display:none}
+.gift-msg textarea{width:100%;margin-top:.5rem;font:inherit;font-size:.86rem;padding:.6em .8em;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);min-height:60px;resize:vertical}
+.gift-msg .gm-note{font-size:.72rem;color:var(--ink-soft);margin-top:.3rem}
+.drawer-foot{border-top:1px solid var(--line);padding:1.1rem 1.3rem;padding-bottom:calc(1.1rem + env(safe-area-inset-bottom,0px));flex:none;background:var(--card)}
+.drawer-foot .stot{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.3rem}
+.drawer-foot .stot .price{font-size:1.5rem}
+.drawer-foot .ship-note{font-size:.78rem;color:var(--ink-soft);margin-bottom:.9rem}
+.drawer-foot .co-note{font-size:.72rem;color:var(--ink-soft);margin-top:.7rem;text-align:center}
+.custom-warn{font-size:.74rem;color:var(--warn);background:color-mix(in srgb,var(--warn) 10%,transparent);border-radius:8px;padding:.5em .7em;margin-bottom:.7rem;display:none}
+.custom-warn.show{display:block}
+
+/* toast */
+.toast-wrap{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;gap:.5rem;align-items:center;pointer-events:none;width:max-content;max-width:90vw}
+.toast{background:var(--ink);color:var(--paper);padding:.75em 1.2em;border-radius:999px;font-size:.88rem;font-weight:600;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:.6em;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:auto}
+.toast.show{opacity:1;transform:none}
+.toast svg{width:17px;height:17px;color:var(--gold)}
+
+/* seasonal banner inside shop */
+.season-strip{background:var(--terra);color:var(--on-terra);border-radius:var(--rad);padding:1rem 1.3rem;display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.season-strip .sj{font-family:var(--font-d);font-size:1.2rem}
+.season-strip p{font-size:.86rem;opacity:.92;flex:1;min-width:200px}
+.season-strip .btn{background:#fff;color:var(--terra-deep)}
+
+/* prototype ribbon */
+.proto{position:fixed;left:0;bottom:0;z-index:35;background:var(--gold);color:#2a1c12;font-size:.68rem;font-weight:700;letter-spacing:.03em;padding:.35em .7em;border-radius:0 10px 0 0;text-transform:uppercase;cursor:pointer;box-shadow:var(--shadow)}
+.proto:hover{background:var(--terra);color:var(--on-terra)}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.01ms!important}
+  .card:hover{transform:none}
+}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+
+/* modal (prototype info / checkout note) */
+.modal-ov{position:fixed;inset:0;background:rgba(26,16,8,.55);z-index:180;display:none;place-items:center;padding:1.5rem}
+.modal-ov.open{display:grid}
+.modal{background:var(--paper);border-radius:var(--rad-lg);max-width:440px;width:100%;padding:1.8rem;box-shadow:var(--shadow-lg);max-height:85vh;overflow:auto}
+.modal h3{font-size:1.4rem;margin-bottom:.6rem}
+.modal p{font-size:.92rem;color:var(--ink-soft);line-height:1.55;margin:.6rem 0}
+.modal ul{font-size:.9rem;color:var(--ink-soft);padding-left:1.2rem;line-height:1.5;margin:.6rem 0}
+.modal .mclose{margin-top:1rem}
+
+/* ===== hero (full-bleed background photo + centered overlaid copy) ===== */
+.hero{position:relative;overflow:hidden;min-height:clamp(480px,76vh,700px);display:flex;align-items:center;justify-content:center;text-align:center;background:#E8B98A}
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+/* soft, even veil so the bright photo stays bright while white text reads */
+.hero-scrim{position:absolute;inset:0;background:radial-gradient(130% 90% at 50% 42%,rgba(20,12,6,.14) 0%,rgba(20,12,6,.34) 70%,rgba(20,12,6,.5) 100%)}
+.hero-scrim::after{content:"";position:absolute;inset:auto 0 0 0;height:90px;background:linear-gradient(to top,var(--paper),transparent)}
+.hero-inner{position:relative;z-index:2;width:100%;max-width:var(--maxw);margin-inline:auto;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px));padding-block:clamp(2.8rem,7vw,5rem)}
+.hero-inner .col{max-width:34rem;margin-inline:auto;text-shadow:0 2px 24px rgba(20,12,6,.45),0 1px 3px rgba(20,12,6,.4)}
+.hero .eyebrow{color:#fff;justify-content:center;opacity:.95}
+.hero .eyebrow::before{border-top-color:var(--gold);opacity:1}
+.hero h1{color:#fff;font-family:var(--font-d);font-weight:500;font-size:clamp(1.7rem,7vw,4.6rem);line-height:1.04;letter-spacing:.005em;margin:.7rem 0;text-align:center}
+.hero h1 .l{display:block;white-space:nowrap}
+.hero-sub{color:rgba(255,255,255,.94);font-size:clamp(.84rem,3vw,1.18rem);margin:0 auto 1.9rem;line-height:1.5;white-space:nowrap}
+.hero .hero-ctas{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+/* reference-style light pill + outlined companion, both centered */
+.hero .btn-primary{background:var(--paper);color:var(--ink);box-shadow:0 10px 30px -12px rgba(20,12,6,.5)}
+.hero .btn-primary:hover{background:#fff}
+.hero .btn-ghost{color:#fff;border-color:rgba(255,255,255,.7);backdrop-filter:blur(2px)}
+.hero .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.14)}
+.hero-chips{display:flex;gap:1.3rem;margin-top:1.9rem;flex-wrap:wrap;justify-content:center}
+.hero-chip{display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.92);font-size:.82rem;font-weight:600;text-shadow:0 1px 8px rgba(20,12,6,.4)}
+.hero-chip svg{width:19px;height:19px;color:#fff;flex:none}
+.tri-deco{position:absolute;width:0;height:0;border-left:42px solid transparent;border-right:42px solid transparent;border-top:70px solid #fff;opacity:.14;pointer-events:none;z-index:1}
+
+/* ===== flavour-per-box configurator pop-up ===== */
+.cfg-head{display:flex;gap:1rem;align-items:center;margin-bottom:1rem}
+.cfg-img{width:88px;height:88px;border-radius:12px;object-fit:cover;flex:none;background:var(--peach-soft);border:1px solid var(--line)}
+.cfg-head h3{font-size:1.35rem;line-height:1.1}
+.cfg-head .csub{font-size:.82rem;color:var(--ink-soft);margin:.2rem 0}
+.cfg-head .price{font-family:var(--font-d);font-size:1.3rem;color:var(--terra-deep)}
+.cfg-quick{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem}
+.cfg-rows{display:flex;flex-direction:column;gap:.55rem;max-height:44vh;overflow:auto;padding-right:.2rem}
+.cfg-row{display:flex;align-items:center;justify-content:space-between;gap:.8rem;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:.55rem .55rem .55rem .85rem}
+.cfg-row label{font-weight:600;font-size:.9rem;white-space:nowrap}
+.cfg-row label small{color:var(--ink-soft);font-weight:500}
+.cfg-sel{font:inherit;font-size:.9rem;padding:.5em .7em;border-radius:8px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);max-width:56%}
+.cfg-foot{display:flex;gap:.6rem;margin-top:1.1rem}
+.cfg-note{font-size:.72rem;color:var(--ink-soft);margin-top:.7rem;text-align:center}
+
+/* ===== journey: from our kitchen to your table ===== */
+.journey{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2.5vw,1.8rem);position:relative}
+.journey::before{content:"";position:absolute;top:clamp(82px,15vw,118px);left:18%;right:18%;height:0;border-top:3px dashed var(--gold);opacity:.5;z-index:0}
+.jnode{text-align:center;position:relative;z-index:1}
+.jart{width:100%;max-width:clamp(180px,30vw,240px);aspect-ratio:1/1;margin:0 auto 1.1rem;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.jart svg{width:100%;height:100%;display:block}
+.jnum{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);z-index:2;width:34px;height:34px;border-radius:50%;background:var(--terra);color:var(--on-terra);font-family:var(--font-d);font-weight:700;font-size:1rem;display:grid;place-items:center;box-shadow:var(--shadow);border:2px solid var(--card)}
+.jnode .jlabel{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--terra-deep)}
+.jnode h4{font-size:1.25rem;margin:.3rem 0 .4rem}
+.jnode p{font-size:.88rem;color:var(--ink-soft);max-width:30ch;margin:0 auto}
+@media(max-width:720px){.journey{grid-template-columns:1fr;gap:2rem}.journey::before{display:none}}
+
+/* ===== visit us / store location ===== */
+.visit{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.3rem,3vw,2.5rem);align-items:center}
+@media(max-width:800px){.visit{grid-template-columns:1fr}}
+.visit-map{position:relative;border-radius:var(--rad-lg);overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);background:var(--peach-soft)}
+.visit-map svg{width:100%;height:100%;display:block}
+.visit-map .vcap{position:absolute;bottom:10px;left:12px;font-size:.68rem;color:var(--ink-soft);background:color-mix(in srgb,var(--card) 85%,transparent);padding:.3em .6em;border-radius:7px}
+.visit-map .m-bg{fill:var(--peach-soft)}
+.visit-map .m-road1{stroke:color-mix(in srgb,var(--ink) 12%,transparent)}
+.visit-map .m-road2{stroke:color-mix(in srgb,var(--ink) 7%,transparent)}
+.visit-map .m-river{stroke:color-mix(in srgb,var(--gold) 45%,transparent)}
+.visit-map .m-pin{fill:var(--terra-deep)}
+.visit-info h2{font-size:clamp(1.8rem,4vw,2.7rem);margin:.3rem 0 .5rem}
+.visit-info .lead{color:var(--ink-soft);font-size:1.02rem;line-height:1.55;margin-bottom:1.1rem}
+.visit-card{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin:1.1rem 0 1.3rem}
+@media(max-width:480px){.visit-card{grid-template-columns:1fr}}
+.visit-card .vc{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:.9rem 1rem}
+.visit-card h5{font-family:var(--font-b);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 .35rem}
+.visit-card p{font-size:.92rem;line-height:1.45}
+.visit-card .ph{color:var(--ink-soft);font-style:italic;border-bottom:1px dashed var(--line)}
+.visit-ctas{display:flex;gap:.7rem;flex-wrap:wrap}
+/* live google map inside the store section */
+.visit-map .gmap{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;transition:opacity .5s ease}
+.visit-map svg{position:absolute;inset:0;width:100%;height:100%}
+.visit-story{margin:1.1rem 0;color:var(--ink-soft);line-height:1.6}
+.visit-story p+p{margin-top:.6rem}
+
+/* ============ SEASONAL: snow ============ */
+.snow{position:fixed;inset:0;pointer-events:none;z-index:45;overflow:hidden}
+.snow i{position:absolute;top:-5%;color:#fff;opacity:.9;will-change:transform;animation:snowfall linear infinite;text-shadow:0 1px 2px rgba(0,0,0,.12)}
+@keyframes snowfall{0%{transform:translate3d(0,-5vh,0) rotate(0)}100%{transform:translate3d(var(--drift,24px),105vh,0) rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.snow{display:none}}
+
+/* ============ CHRISTMAS section (premium festive) ============ */
+.xmas{position:relative;overflow:hidden;color:#fff;
+  background:
+    radial-gradient(90% 70% at 85% 108%,rgba(138,34,34,.55) 0%,transparent 55%),
+    radial-gradient(120% 90% at 50% -10%,#1b5c40 0%,#0e4330 45%,#0a3025 100%)}
+/* string of warm lights across the top */
+.xmas::before{content:"";position:absolute;inset:0 0 auto;height:16px;background:radial-gradient(circle at 11px 8px,#ffd98a 3px,transparent 3.6px) 0 0/46px 16px repeat-x;opacity:.6;filter:drop-shadow(0 2px 3px rgba(255,200,120,.4))}
+.xmas-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.xmas .wrap{position:relative;z-index:1;padding-block:clamp(2.8rem,6vw,4.6rem)}
+/* festive popup launcher */
+.xlaunch{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:140;width:58px;height:58px;border-radius:50%;background:#8a2222;color:#fff;font-size:1.5rem;display:grid;place-items:center;box-shadow:0 10px 26px -8px rgba(0,0,0,.5);border:2px solid #ffd98a;animation:xpulse 2.6s ease-in-out infinite}
+.xlaunch:hover{background:#a12a2a;transform:scale(1.06)}
+.xlaunch .xl-dot{position:absolute;top:-4px;right:-4px;width:20px;height:20px;border-radius:50%;background:#ffd98a;color:#3a1a0a;font-size:.66rem;font-weight:800;display:grid;place-items:center;border:2px solid #8a2222}
+@keyframes xpulse{0%,100%{box-shadow:0 10px 26px -8px rgba(0,0,0,.5),0 0 0 0 rgba(255,217,138,.5)}50%{box-shadow:0 10px 26px -8px rgba(0,0,0,.5),0 0 0 10px rgba(255,217,138,0)}}
+@media (prefers-reduced-motion:reduce){.xlaunch{animation:none}}
+.xmas .xhead{text-align:center;margin-bottom:2.2rem}
+.xmas .holly{display:inline-block;font-size:1.5rem;margin-bottom:.5rem}
+.xmas .eyebrow{color:#ffd98a;justify-content:center}
+.xmas .eyebrow::before{border-top-color:#ffd98a}
+.xmas h2{color:#fff;font-size:clamp(2rem,4.8vw,3.2rem);margin-top:.2rem}
+.xmas .xrule{width:64px;height:3px;background:linear-gradient(90deg,transparent,#ffd98a,transparent);margin:.9rem auto .2rem}
+.xmas .lede{color:rgba(255,255,255,.82);max-width:52ch;margin:.7rem auto 0;line-height:1.55}
+.xmas .lede strong{color:#ffd98a}
+.xmas .xnote{display:flex;justify-content:center;gap:clamp(1rem,3vw,2.2rem);flex-wrap:wrap;margin-top:1.3rem;color:rgba(255,255,255,.9);font-size:.84rem;font-weight:600}
+.xmas .xnote span{display:inline-flex;align-items:center;gap:.5em}
+.xmas .xnote .g{color:#ffd98a}
+.xmas-cta{text-align:center;margin-top:2rem}
+.xmas .btn-gold{background:#ffd98a;color:#3a1a0a}
+.xmas .btn-gold:hover{background:#ffe6ac}
+.xmas .btn-outline{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.xmas .btn-outline:hover{background:rgba(255,255,255,.12);border-color:#fff}
+/* festive product cards */
+.xgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(1rem,2vw,1.3rem)}
+@media(max-width:1000px){.xgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.xgrid{grid-template-columns:1fr}}
+.xcard{background:var(--card);border:1px solid rgba(255,217,138,.45);border-radius:var(--rad);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 44px -24px rgba(0,0,0,.65);transition:transform .16s ease,box-shadow .18s ease}
+.xcard:hover{transform:translateY(-4px);box-shadow:0 30px 56px -24px rgba(0,0,0,.72)}
+.xcard-img{position:relative;aspect-ratio:1/1;background:var(--peach-soft);overflow:hidden;cursor:pointer}
+.xcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.xcard:hover .xcard-img img{transform:scale(1.05)}
+.xtag{position:absolute;top:.6rem;left:.6rem;z-index:2;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.34em .7em;border-radius:999px;box-shadow:0 2px 7px rgba(0,0,0,.3)}
+.xtag.ltd{background:#8a2222;color:#fff}
+.xtag.fav{background:#0e4330;color:#ffd98a;border:1px solid rgba(255,217,138,.5)}
+.xcard-b{padding:.9rem 1rem 1.05rem;display:flex;flex-direction:column;gap:.4rem;flex:1}
+.xcard-b h4{font-size:1.06rem;line-height:1.15;color:var(--ink);cursor:pointer}
+.xcard-b h4:hover{color:var(--terra-deep)}
+.xcard-b p{font-size:.82rem;color:var(--ink-soft);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.xcard-f{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:.3rem}
+.xcard-f .price{font-family:var(--font-d);font-weight:600;font-size:1.22rem;color:var(--ink)}
+.xadd{background:#0e4330;color:#fff;border-radius:999px;padding:.52em .95em;font-size:.82rem;font-weight:700;display:inline-flex;gap:.35em;align-items:center}
+.xadd:hover{background:#8a2222}
+/* hero festive lights + badge */
+.hero-lights{position:absolute;top:0;left:0;right:0;height:18px;z-index:3;background:radial-gradient(circle at 12px 9px,#ffd98a 3px,transparent 3.6px) 0 0/48px 18px repeat-x;opacity:.9;filter:drop-shadow(0 2px 4px rgba(255,200,120,.5));pointer-events:none}
+.hero-xbadge{display:inline-flex;align-items:center;gap:.45em;background:rgba(138,34,34,.85);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:.4em .9em;border-radius:999px;margin-bottom:.4rem;border:1px solid rgba(255,217,138,.5)}
+/* popup samosa image */
+.xpop-img{position:relative;height:130px;margin:-1.8rem -1.8rem 0;overflow:hidden}
+.xpop-img img{width:100%;height:100%;object-fit:cover}
+.xpop-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,59,43,.15),rgba(13,59,43,.95))}
+.xpop-img .xpop-badge{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);z-index:2;margin:0}
+
+/* ============ CHRISTMAS popup ============ */
+.modal.xmas-modal{background:linear-gradient(165deg,#124a35 0%,#0d3b2b 60%,#7d1f1f 130%);color:#fff;text-align:center;border:1.5px solid rgba(255,217,138,.4);position:relative;overflow:hidden}
+.modal.xmas-modal::before{content:"";position:absolute;inset:0 0 auto;height:12px;background:radial-gradient(circle at 9px 6px,#ffd98a 2.6px,transparent 3px) 0 0/36px 12px repeat-x;opacity:.6}
+.xpop-badge{display:inline-block;background:#8a2222;color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.35em .8em;border-radius:999px;margin-bottom:.6rem}
+.xpop h3{color:#fff;font-size:1.7rem;margin-bottom:.3rem}
+.xpop h3 .pc{color:#ffd98a}
+.xpop p{color:rgba(255,255,255,.85);font-size:.92rem;margin:.5rem auto .3rem;max-width:34ch}
+.xpop form{display:flex;gap:.5rem;margin:1rem 0 .4rem;flex-wrap:wrap}
+.xpop input{flex:1;min-width:180px;padding:.8em 1.1em;border-radius:999px;border:1.5px solid transparent;background:#fff;color:var(--ink);font:inherit;font-size:.95rem}
+.xpop .btn-gold{background:#ffd98a;color:#3a1a0a}
+.xpop .btn-gold:hover{background:#ffe6ac}
+.xpop-code{margin:.6rem auto 0;background:rgba(255,255,255,.1);border:1.5px dashed #ffd98a;border-radius:12px;padding:.8rem;max-width:280px}
+.xpop-code small{display:block;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:.2rem}
+.xpop-code .code{font-family:var(--font-d);font-size:1.6rem;font-weight:600;letter-spacing:.14em;color:#ffd98a}
+.xpop-code button{margin-top:.5rem;font-size:.78rem;font-weight:600;color:#fff;text-decoration:underline;background:none}
+.xpop .fine{font-size:.68rem;color:rgba(255,255,255,.55);margin-top:.8rem}
+
+/* ============ unique chutney card in flavours grid ============ */
+.flav.chut-card{background:linear-gradient(150deg,#7a3214,#b4531a 60%,var(--gold));display:flex;flex-direction:column;justify-content:flex-end;padding:0}
+.flav.chut-card .chut-pic{position:absolute;inset:0}
+.flav.chut-card .chut-pic img{width:100%;height:100%;object-fit:cover;opacity:.9;mix-blend-mode:normal}
+.flav.chut-card .ribbon{position:absolute;top:.7rem;left:.7rem;z-index:2;background:#fff;color:#7a3214;font-size:.64rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.3em .6em;border-radius:999px}
+.flav.chut-card .ov{background:linear-gradient(to top,rgba(58,20,8,.92) 12%,rgba(58,20,8,.35) 55%,rgba(58,20,8,.15) 100%)}
+.flav.chut-card .ov h4{color:#fff}
+.flav.chut-card .ov small{color:#ffd9b8}
+.flav.chut-card .ov .cadd{margin-top:.5rem;align-self:flex-start;background:#fff;color:#7a3214;font-weight:700;font-size:.78rem;padding:.4em .85em;border-radius:999px}
+.flav.chut-card .ov .cadd:hover{background:#ffe6ac}
+
+/* signup with photo background */
+.signup.photo{color:#fff;background-size:cover;background-position:center}
+.signup.photo h2{color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.5)}
+.signup.photo p{color:rgba(255,255,255,.92)}
+.signup.photo .consent{color:rgba(255,255,255,.72)}
+.signup.photo::after{border-color:rgba(255,255,255,.4)}
+
+/* contact page */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.4rem,3vw,2.6rem);align-items:start}
+@media(max-width:760px){.contact-grid{grid-template-columns:1fr}}
+.contact-cards{display:flex;flex-direction:column;gap:.9rem}
+.contact-card{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:1.1rem 1.2rem}
+.contact-card .ic{width:42px;height:42px;border-radius:11px;background:var(--peach-soft);color:var(--terra-deep);display:grid;place-items:center;flex:none}
+.contact-card .ic svg{width:21px;height:21px}
+.contact-card h4{font-size:1rem;margin-bottom:.15rem}
+.contact-card p,.contact-card a{font-size:.9rem;color:var(--ink-soft)}
+.contact-card a:hover{color:var(--terra-deep)}
+</style>
+
+<a href="#main" class="skip">Skip to content</a>
+
+<!-- ANNOUNCEMENT -->
+<div id="ann" role="region" aria-label="Announcements">
+  <div class="wrap" id="ann-inner"></div>
+</div>
+
+<!-- HEADER -->
+<header id="top">
+  <div class="wrap">
+    <a href="#" class="brand" data-nav="home" aria-label="Big Mum's Samosas home">
+      <img class="logo-light" src="https://bigmumsamosas.com/cdn/shop/files/Logo_Black.png" alt="Big Mum's Samosas" width="140" height="40" fetchpriority="high">
+      <img class="logo-dark" src="https://bigmumsamosas.com/cdn/shop/files/bms-main-logo-full-white_1x_3240ba63-c49a-4a67-9939-f841cffa0894.png" alt="Big Mum's Samosas" width="140" height="40">
+    </a>
+    <nav class="main" id="nav" aria-label="Primary">
+      <div class="m-head">
+        <span style="font-family:var(--font-d);font-size:1.2rem;font-weight:600">Menu</span>
+        <button class="icon-btn" id="nav-close" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <a href="#" data-nav="shop">Shop Samosas</a>
+      <a href="#" data-nav="builder">Build Your Box</a>
+      <a href="#" data-nav="flavours">Our Flavours</a>
+      <a href="#" data-nav="catering">Catering</a>
+      <a href="#" data-nav="story">Our Story</a>
+      <a href="#" data-nav="delivery">Delivery &amp; FAQs</a>
+      <a href="#" data-nav="contact">Contact</a>
+      <div class="nav-ctas">
+        <button class="btn btn-primary btn-block" data-nav="shop">Shop Samosas</button>
+      </div>
+    </nav>
+    <div class="head-actions">
+      <button class="icon-btn" id="theme-btn" aria-label="Toggle dark mode" title="Toggle theme">
+        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+      </button>
+      <button class="icon-btn" id="cart-btn" aria-label="Open basket" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 11a2 2 0 0 1-2 1.8H9A2 2 0 0 1 7 19L6 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+        <span class="cart-count" id="cart-count" data-n="0"></span>
+      </button>
+      <button class="icon-btn menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main"></main>
+
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Shopping basket" aria-hidden="true">
+  <div class="drawer-head">
+    <h2>Your Basket</h2>
+    <button class="close" id="drawer-close" aria-label="Close basket"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="free-bar" id="free-bar">
+    <div class="msg" id="free-msg"></div>
+    <div class="free-track"><div class="fill" id="free-fill"></div></div>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <details class="gift-msg" id="gift-wrap">
+    <summary>+ Add a gift message (+£1.50)</summary>
+    <textarea id="gift-text" maxlength="200" placeholder="Write your message — we'll include a printed card."></textarea>
+    <div class="gm-note">Adds a “Personalised message” card to your order (£1.50).</div>
+  </details>
+  <div class="drawer-foot">
+    <div class="custom-warn" id="custom-warn"></div>
+    <div class="stot"><span>Subtotal</span><span class="price" id="subtotal">£0.00</span></div>
+    <div class="ship-note" id="ship-note">Delivery calculated at checkout · Free over £40</div>
+    <a class="btn btn-primary btn-block btn-lg" id="checkout-btn" target="_blank" rel="noopener">Checkout</a>
+    <div class="co-note">Secure checkout is handled by Shopify. You'll review delivery &amp; pay on the next step.</div>
+  </div>
+</aside>
+
+<!-- toast + modal + proto ribbon -->
+<div class="toast-wrap" id="toasts" aria-live="polite"></div>
+<div class="modal-ov" id="modal-ov"><div class="modal" id="modal"></div></div>
+<button class="proto" id="proto-btn">Prototype — read me</button>
+
+<script>
+/* =========================================================================
+   DATA — verified from bigmumsamosas.com /products.json + page content
+   (prices, variant IDs, descriptions, allergens, images are REAL)
+   ========================================================================= */
+const PCDN='https://cdn.shopify.com/s/files/1/0778/6171/6253/files/';
+const TCDN='https://bigmumsamosas.com/cdn/shop/files/';
+const FREE_THRESHOLD=40;
+const SITE='https://bigmumsamosas.com';
+
+const IMG={
+  hero:TCDN+'bms-slideshow-1_1x_8b7717bd-e9bc-45f6-b7f1-04a2121ea752.jpg',
+  life1:TCDN+'BigMums-3246.jpg',
+  life2:TCDN+'IMG_8206.jpg',
+  office:TCDN+'office-orders-parties-events.jpg',
+  cater1:TCDN+'catering-1_1x_d6578408-fbc3-4d34-ad95-2d77971a1a0a.jpg',
+  cater2:TCDN+'catering-2_1x_18969807-9917-41d1-8c66-f3f5bc3a594d.jpg',
+  cater4:TCDN+'catering-4_1x_6e53e568-f831-4cad-b829-3e4169eecf5f.jpg',
+};
+
+// flavour boxes (box of 10, £27) — REAL
+const FLAVOURS=[
+  {id:'55425028194683',handle:'original-veg-box-of-10',name:'Original Veg',img:PCDN+'Original_Veg_f56fed43-f5db-42d8-bc12-fb953b8c8585.png?v=1747220950',
+   desc:'A hearty assortment of seasonal garden vegetables — butternut squash, potato, peas and mixed peppers, combined with Big Mum’s traditional spice mix.',
+   allergens:['Gluten'],diet:['Vegetarian','Savoury'],kind:'savoury'},
+  {id:'55425033699707',handle:'chicken-tikka-box-of-10',name:'Chicken Tikka',img:PCDN+'Chicken_Tikka_287873cf-919b-40d2-a6a2-55ad10a67301.png?v=1747220382',
+   desc:'A classic with its own identity — shredded chicken marinated in spices and coated with a rich masala sauce, just how Big Mum likes it.',
+   allergens:['Gluten'],diet:['Savoury'],kind:'savoury'},
+  {id:'55425042514299',handle:'the-cheeseburger-box-of-10',name:'The Cheeseburger',img:PCDN+'The_Cheeseburger_3cb35c79-d695-4b51-a293-0a63e02beb34.png?v=1747220467',
+   desc:'Yes, you read correctly. Seasoned beef, pickled gherkins, onions and American cheese, all wrapped in Big Mum’s famous pastry.',
+   allergens:['Gluten','Dairy','Mustard'],diet:['Savoury'],kind:'savoury'},
+  {id:'55425045561723',handle:'chilli-paneer-box-of-10',name:'Chilli Paneer',img:PCDN+'Chilli_Paneer_c9b258d6-fc38-444b-b655-1e0e8122b452.png?v=1747220556',
+   desc:'Big Mum’s popular Asian twist — an assortment of cheeses blended with onions and peppers, tossed in a sweet and spicy sauce.',
+   allergens:['Dairy','Gluten','Sesame','Soy','Celery'],diet:['Vegetarian','Savoury'],kind:'savoury'},
+  {id:'55425046839675',handle:'slow-cooked-lamb-box-of-10',name:'Lamb Keema',img:PCDN+'Photo_16-07-2023_12_27_37_3.jpg?v=1771008198',
+   desc:'Traditional lamb mince cooked with onions and peas, seasoned with aromatic spices and wrapped in the crispiest pastry.',
+   allergens:['Gluten'],diet:['Savoury'],kind:'savoury'},
+  {id:'55425048740219',handle:'apple-pie-bites-box-of-10',name:'Apple Pie Bites',img:PCDN+'Apple_Pie_Bites_b01c64b1-84f0-430a-bcc9-def22c65e9ea.png?v=1747220665',
+   desc:'A real comforting treat. Locally sourced apples cooked in a sweet, reduced apple sauce with a hint of cinnamon, in Big Mum’s crispy pastry.',
+   allergens:['Gluten'],diet:['Vegetarian','Sweet'],kind:'sweet'},
+  {id:'55425050935675',handle:'choco-bites-box-of-10',name:'Choco Bites',img:PCDN+'Choco_Bites_239cd122-84c8-4884-9543-17eb0ea30316.png?v=1747220719',
+   desc:'A sweet variation of the traditional savoury samosa — melted chocolate chips wrapped in Big Mum’s secret pastry.',
+   allergens:['Gluten'],diet:['Vegetarian','Sweet'],kind:'sweet'},
+];
+FLAVOURS.forEach(f=>{f.price=27;f.category='flavour';f.count=10;f.boxNote='One box of 10 handmade samosas';f.available=true;
+  f.images=[f.img];f.sub='Box of 10';});
+
+// mixed bundles — REAL (each "X samosas" = several sealed boxes)
+const BUNDLES=[
+  {id:'48643630399773',handle:'8-samosas',name:'8 Samosas',price:24,count:8,boxNote:'2 boxes of 4 handmade samosas',
+   img:PCDN+'IMG_7392.jpg?v=1718191145',images:[PCDN+'IMG_7392.jpg?v=1718191145',PCDN+'15samosas.jpg?v=1692607688',PCDN+'BigMums-3246.jpg?v=1692736121'],
+   for:'A taster for one or two — a light lunch or a first try of Big Mum’s.',sub:'2 boxes of 4'},
+  {id:'45248064848157',handle:'bundle-box-12x-samosas',name:'15 Samosas',price:40,count:15,boxNote:'3 boxes of 5 handmade samosas',feat:true,
+   img:PCDN+'15samosas.jpg?v=1692607688',images:[PCDN+'15samosas.jpg?v=1692607688',PCDN+'BigMums-3246.jpg?v=1692736121'],
+   for:'Our most-loved size — perfect for a family dinner or small get-together. Qualifies for free delivery.',sub:'3 boxes of 5'},
+  {id:'45752909103389',handle:'50-samosas',name:'50 Samosas',price:120,count:50,boxNote:'5 boxes of 10 handmade samosas',
+   img:PCDN+'Picture1.jpg?v=1695552486',images:[PCDN+'Picture1.jpg?v=1695552486'],
+   for:'Built for a party, an office spread or a big weekend in.',sub:'5 boxes of 10'},
+  {id:'45248067764509',handle:'party-bundle-80x-samosas',name:'100 Samosas',price:200,count:100,boxNote:'10 boxes of 10 handmade samosas',
+   img:PCDN+'100.jpg?v=1695288691',images:[PCDN+'100.jpg?v=1695288691'],
+   for:'The full celebration — festivals, large events and serious samosa lovers.',sub:'10 boxes of 10'},
+];
+const BOXCFG={8:{boxes:2,size:4},15:{boxes:3,size:5},50:{boxes:5,size:10},100:{boxes:10,size:10}};
+BUNDLES.forEach(b=>{b.category='bundle';b.available=true;b.diet=['Savoury'];b.allergens=['Gluten'];
+  const cfg=BOXCFG[b.count]||{boxes:1,size:b.count};b.boxes=cfg.boxes;b.boxSize=cfg.size;
+  b.desc='Pick a flavour for each box — '+b.boxNote.toLowerCase()+'. Choose from all seven handmade flavours. Arrive cooked and chilled, ready to reheat.';});
+
+// chutney — REAL
+const CHUTNEY=[
+  {id:'45752994169117',handle:'homemade-chutney-105-ml',name:'Homemade Chutney (105ml)',price:3,category:'chutney',count:0,available:true,
+   img:PCDN+'BIGMUMS3XCHUTNEYBUNDLEJARS105ML.jpg?v=1691091325',
+   images:[PCDN+'BIGMUMS3XCHUTNEYBUNDLEJARS105ML.jpg?v=1691091325',PCDN+'BIGMUMSGREENCHUTNEY105MLcopy.jpg?v=1691091374',PCDN+'BIGMUMSCHILLIREDCHUTNEY105ML.jpg?v=1691091424',PCDN+'BIGMUMSCUSTARD105ML.jpg?v=1691091507'],
+   desc:'The finishing touch. Big Mum’s homemade chutney in a 105ml jar — the perfect dip for any flavour in the range.',
+   allergens:[],diet:[],sub:'105ml jar'},
+];
+
+// seasonal — Diwali (ACTIVE) + Christmas (pre-order) — REAL
+const SEASONAL=[
+  {id:'56538126811515',handle:'diwali-samosa-sharer-20-samosas',name:'Diwali Samosa Sharer (20)',price:50,count:20,category:'seasonal',season:'diwali',available:true,
+   img:PCDN+'MAINPRODUCTPIC.png?v=1792911415',images:[PCDN+'MAINPRODUCTPIC.png?v=1792911415',PCDN+'2nd.png?v=1792911433'],
+   desc:'Four boxes of 5 handmade samosas (20 in total) with chutney to complement — our Diwali sharing box.',boxNote:'4 boxes of 5 + chutney',
+   allergens:['Gluten','Dairy','Nuts'],diet:['Savoury'],sub:'Limited edition'},
+  {id:'56538136936827',handle:'diwali-samosa-gift-box-15-samosas',name:'Diwali Gift Box (15)',price:38,count:15,category:'seasonal',season:'diwali',available:true,
+   img:PCDN+'MAINTHUMNAILPIC.png?v=1792913716',images:[PCDN+'MAINTHUMNAILPIC.png?v=1792913716',PCDN+'14D40779-9DE2-4367-BC2D-53ECADE070DF.png?v=1792913744'],
+   desc:'Ten handmade savoury samosas plus five Diwali-edition sweet samosas, with chutney. A festive gift box.',boxNote:'10 savoury + 5 sweet + chutney',
+   allergens:['Gluten','Dairy','Nuts'],diet:[],sub:'Limited edition'},
+  {id:'56538138902907',handle:'diwali-sweet-samosa-bundle-12-samosas',name:'Diwali Sweet Bundle (12)',price:28,count:12,category:'seasonal',season:'diwali',available:true,
+   img:PCDN+'MAINPIC.jpg?v=1792914971',images:[PCDN+'MAINPIC.jpg?v=1792914971',PCDN+'2ND_1.png?v=1792915027',PCDN+'3RD.png?v=1792915030'],
+   desc:'Three boxes of 4 handmade sweet samosas (12 total) with a limited-edition Diwali dipping sauce.',boxNote:'3 boxes of 4 sweet + dip',
+   allergens:['Gluten','Dairy','Nuts'],diet:['Sweet'],sub:'Limited edition'},
+  {id:'47261861249309',handle:'orignal-mince-pie',name:'Original Mince Pie (15)',price:27,count:15,category:'seasonal',season:'christmas',available:true,preorder:true,
+   img:PCDN+'mincepie.jpg?v=1701435333',images:[PCDN+'mincepie.jpg?v=1701435333'],
+   desc:'Mince-pie flavoured sweet samosas — spiced mincemeat in buttery pastry. The box includes 15 samosas and a vanilla dip.',boxNote:'15 sweet samosas + vanilla dip',
+   allergens:['Gluten'],diet:['Sweet'],sub:'Christmas edition'},
+];
+
+const GIFTS=[
+  {id:'47262096785693',handle:'gift-vouchers',name:'Gift Voucher',price:40,category:'gift',count:0,available:true,voucher:true,
+   img:PCDN+'BIGMUMSSOCIALMEDIA.jpg?v=1701181311',images:[PCDN+'BIGMUMSSOCIALMEDIA.jpg?v=1701181311'],
+   desc:'The perfect gift for samosa lovers. Available in £20, £40, £120 and £200 — redeemable online.',
+   allergens:[],diet:[],sub:'£20 / £40 / £120 / £200',variants:[{t:'£20',id:'47261740663069',p:20},{t:'£40',id:'47262096785693',p:40},{t:'£120',id:'47262096818461',p:120},{t:'£200',id:'47262096851229',p:200}]},
+];
+const PERSONALISED_MSG_ID='46790617923869'; // real £1.50 add-on
+
+const ALL=[...BUNDLES,...FLAVOURS,...CHUTNEY,...SEASONAL,...GIFTS];
+const byId=id=>ALL.find(p=>p.id===id);
+const byHandle=h=>ALL.find(p=>p.handle===h);
+
+/* =========================================================================
+   SEASONAL THEME — flip SEASON to turn the whole site festive, and back to
+   'none' when the season ends. Everything below keys off this one switch.
+   ========================================================================= */
+const SEASON='none';            // 'christmas' | 'none'
+const XMAS_CODE='MERRY10';           // placeholder — create this 10% code in Shopify
+// Christmas featured products (REAL items): Mince Pie samosas, 15 box, gift voucher, chutney
+const XMAS_FEATURE=['47261861249309','45248064848157','47262096785693','45752994169117'];
+
+/* =========================================================================
+   CART
+   ========================================================================= */
+let cart=[];
+try{const s=localStorage.getItem('bms_cart');if(s)cart=JSON.parse(s)||[];}catch(e){}
+let giftMessage='';
+try{giftMessage=localStorage.getItem('bms_gift')||'';}catch(e){}
+
+function saveCart(){try{localStorage.setItem('bms_cart',JSON.stringify(cart));localStorage.setItem('bms_gift',giftMessage);}catch(e){}}
+function cartCount(){return cart.reduce((n,i)=>n+i.qty,0);}
+function cartSubtotal(){let s=cart.reduce((t,i)=>t+i.price*i.qty,0);if(giftMessage.trim())s+=1.5;return s;}
+function money(n){return '£'+n.toFixed(2);}
+
+function addToCart(line){
+  // line: {key,id,name,price,img,qty,sub,custom?,flavText?}
+  const ex=cart.find(i=>i.key===line.key);
+  if(ex){ex.qty+=line.qty;}else{cart.push(Object.assign({qty:1},line));}
+  saveCart();renderCart();bump();
+  toast(line.name+' added to basket');
+}
+function addProduct(p,qty){qty=qty||1;
+  addToCart({key:p.id,id:p.id,name:p.name,price:p.price,img:p.img,qty,sub:p.sub||'',custom:false});
+}
+function changeQty(key,d){const i=cart.find(x=>x.key===key);if(!i)return;i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.key!==key);saveCart();renderCart();}
+function removeItem(key){cart=cart.filter(x=>x.key!==key);saveCart();renderCart();toast('Item removed');}
+
+function bump(){const el=document.getElementById('cart-btn');el.animate?el.animate([{transform:'scale(1)'},{transform:'scale(1.22)'},{transform:'scale(1)'}],{duration:280}):0;}
+
+function checkoutURL(){
+  // Build a REAL Shopify cart permalink from standard (non-custom) line items.
+  const real=cart.filter(i=>!i.custom);
+  const pairs=real.map(i=>i.id+':'+i.qty);
+  if(giftMessage.trim())pairs.push(PERSONALISED_MSG_ID+':1');
+  if(!pairs.length)return null;
+  let url=SITE+'/cart/'+pairs.join(',');
+  // attach gift message as a cart note via query (Shopify supports ?note=)
+  return url;
+}
+
+function renderCart(){
+  const n=cartCount();
+  const cc=document.getElementById('cart-count');cc.textContent=n;cc.setAttribute('data-n',n);
+  const box=document.getElementById('cart-items');
+  if(!cart.length){
+    box.innerHTML='<div class="cart-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8h12l-1 11a2 2 0 0 1-2 1.8H9A2 2 0 0 1 7 19L6 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><div><b style="font-family:var(--font-d);font-size:1.2rem;color:var(--ink)">Your basket is empty</b><br><span>Add some handmade samosas to get started.</span></div><button class="btn btn-primary" data-nav="shop">Shop Samosas</button></div>';
+  }else{
+    box.innerHTML=cart.map(i=>`
+      <div class="ci">
+        <img src="${i.img}" alt="${i.name}" loading="lazy">
+        <div class="cd">
+          <b>${i.name}</b>
+          ${i.custom?`<span class="custom-tag">Custom box</span>`:''}
+          ${i.sub?`<span class="sub">${i.sub}</span>`:''}
+          ${i.flavText?`<span class="flav-detail">${i.flavText}</span>`:''}
+          <span class="pr">${money(i.price)}</span>
+          <div class="crow">
+            <div class="mini-step">
+              <button data-q="${i.key}" data-d="-1" aria-label="Decrease quantity">–</button>
+              <span>${i.qty}</span>
+              <button data-q="${i.key}" data-d="1" aria-label="Increase quantity">+</button>
+            </div>
+            <button class="rm" data-rm="${i.key}">Remove</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  // free delivery bar
+  const sub=cart.reduce((t,i)=>t+i.price*i.qty,0);
+  const fill=document.getElementById('free-fill');const msg=document.getElementById('free-msg');
+  const pct=Math.min(100,(sub/FREE_THRESHOLD)*100);fill.style.width=pct+'%';
+  if(sub>=FREE_THRESHOLD){msg.innerHTML='🎉 <b>You’ve unlocked free nominated-day delivery!</b>';}
+  else if(sub>0){msg.innerHTML='Spend <b>'+money(FREE_THRESHOLD-sub)+'</b> more for free nominated-day delivery';}
+  else{msg.innerHTML='Free nominated-day delivery on orders over <b>£40</b>';}
+  // subtotal
+  document.getElementById('subtotal').textContent=money(cartSubtotal());
+  document.getElementById('gift-wrap').style.display=cart.length?'block':'none';
+  // custom-box warning + checkout link
+  const hasCustom=cart.some(i=>i.custom);
+  const warn=document.getElementById('custom-warn');
+  warn.classList.toggle('show',hasCustom);
+  if(hasCustom)warn.textContent='Custom mix boxes are a prototype and aren’t sent to Shopify checkout yet (needs a bundle app — see integration notes). Other items will check out normally.';
+  const co=document.getElementById('checkout-btn');
+  const url=checkoutURL();
+  if(url){co.href=url;co.removeAttribute('aria-disabled');co.style.pointerEvents='';co.style.opacity='';co.textContent='Checkout · '+money(cart.filter(i=>!i.custom).reduce((t,i)=>t+i.price*i.qty,0)+(giftMessage.trim()?1.5:0));}
+  else{co.removeAttribute('href');co.setAttribute('aria-disabled','true');co.style.pointerEvents='none';co.style.opacity='.5';co.textContent=hasCustom?'Add a standard item to checkout':'Basket is empty';}
+}
+
+/* drawer open/close */
+const overlay=document.getElementById('overlay'),drawer=document.getElementById('drawer');
+let lastFocus=null;
+function openCart(){lastFocus=document.activeElement;overlay.classList.add('open');drawer.classList.add('open');drawer.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';document.getElementById('drawer-close').focus();}
+function closeCart(){overlay.classList.remove('open');drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true');document.body.style.overflow='';if(lastFocus)lastFocus.focus();}
+document.getElementById('cart-btn').onclick=openCart;
+document.getElementById('drawer-close').onclick=closeCart;
+overlay.onclick=closeCart;
+document.getElementById('cart-items').addEventListener('click',e=>{
+  const q=e.target.closest('[data-q]');if(q){changeQty(q.dataset.q,+q.dataset.d);return;}
+  const r=e.target.closest('[data-rm]');if(r){removeItem(r.dataset.rm);return;}
+  const nv=e.target.closest('[data-nav]');if(nv){closeCart();go(nv.dataset.nav);}
+});
+document.getElementById('gift-text').addEventListener('input',e=>{giftMessage=e.target.value;saveCart();renderCart();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(drawer.classList.contains('open'))closeCart();const nav=document.getElementById('nav');if(nav.classList.contains('open'))closeNav();closeModal();}});
+
+/* =========================================================================
+   TOAST
+   ========================================================================= */
+function toast(msg){
+  const w=document.getElementById('toasts');
+  const t=document.createElement('div');t.className='toast';
+  t.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>'+msg;
+  w.appendChild(t);requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300);},2400);
+}
+
+/* =========================================================================
+   ANNOUNCEMENT (schedulable — auto-hides expired promos)
+   ========================================================================= */
+const TODAY=new Date('2026-12-05');
+const PROMOS=[
+  {season:'christmas',msg:'🎄 <strong>Christmas is here</strong> — order your festive samosa gift boxes',cta:{label:'Shop Christmas',nav:'shop',cat:'seasonal'},from:'2026-11-20',to:'2026-12-25'},
+  {season:'christmas',msg:'🎁 Get <strong>10% off</strong> your first order with code '+XMAS_CODE,from:'2026-11-20',to:'2026-12-25'},
+  {msg:'Free nominated-day delivery on orders over <strong>£40</strong>',from:'2026-01-01',to:'2027-12-31'},
+  {msg:'<strong>Saturday delivery available</strong> — order by Thursday 9pm',from:'2026-01-01',to:'2027-12-31'},
+];
+function activePromos(){return PROMOS.filter(p=>new Date(p.from)<=TODAY&&TODAY<=new Date(p.to)&&(!p.season||p.season===SEASON));}
+let promoIdx=0;
+function renderAnn(){
+  const list=activePromos();if(!list.length){document.getElementById('ann').style.display='none';return;}
+  const p=list[promoIdx%list.length];
+  const inner=document.getElementById('ann-inner');
+  inner.innerHTML=p.msg+(p.cta?` <span class="dot"></span> <a href="#" data-nav="${p.cta.nav}" data-cat="${p.cta.cat||''}">${p.cta.label} →</a>`:'');
+  if(list.length>1)setTimeout(()=>{promoIdx++;renderAnn();},5000);
+}
+
+/* =========================================================================
+   ROUTER
+   ========================================================================= */
+const main=document.getElementById('main');
+const VIEWS={};
+function go(name,param){
+  closeNav();
+  const fn=VIEWS[name]||VIEWS.home;
+  main.innerHTML='';
+  const node=fn(param);
+  main.appendChild(node);
+  window.scrollTo({top:0,behavior:'auto'});
+  // nav active
+  document.querySelectorAll('nav.main a[data-nav]').forEach(a=>{
+    a.setAttribute('aria-current',a.dataset.nav===name?'page':'false');
+    if(a.dataset.nav!==name)a.removeAttribute('aria-current');
+  });
+  document.title=({home:"Big Mum's Samosas",shop:'Shop · Big Mum’s Samosas',builder:'Build Your Box · Big Mum’s Samosas',flavours:'Our Flavours · Big Mum’s Samosas',catering:'Catering · Big Mum’s Samosas',story:'Our Story · Big Mum’s Samosas',delivery:'Delivery & FAQs · Big Mum’s Samosas',contact:'Contact · Big Mum’s Samosas',product:'Big Mum’s Samosas'})[name]||"Big Mum's Samosas";
+  try{if(name&&/^[a-z]+$/.test(name))location.hash=name==='home'?'':name;}catch(e){}
+  initReveal();
+  stickyAddObserver();
+}
+// delegate [data-nav] clicks everywhere
+document.addEventListener('click',e=>{
+  const n=e.target.closest('[data-nav]');
+  if(n){e.preventDefault();const cat=n.dataset.cat;go(n.dataset.nav,cat?{cat}:undefined);}
+});
+
+/* ---------- helpers to build DOM from html ---------- */
+function el(html){const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstElementChild;}
+function productCard(p){
+  const tags=[];
+  if(p.category==='seasonal')tags.push('<span class="chip season">'+(p.season==='christmas'?'Christmas':'Diwali')+'</span>');
+  if(p.diet&&p.diet.includes('Vegetarian'))tags.push('<span class="chip veg">Veg</span>');
+  if(p.diet&&p.diet.includes('Sweet'))tags.push('<span class="chip sweet">Sweet</span>');
+  const per=p.count>0?`<span class="per">${money(p.price/p.count)} / samosa</span>`:'';
+  return `<article class="card reveal">
+    <div class="thumb" data-product="${p.id}" role="button" tabindex="0" aria-label="View ${p.name}">
+      ${tags.length?`<div class="tags">${tags.join('')}</div>`:''}
+      <img src="${p.img}" alt="${p.name}${p.count?(' — '+p.count+' handmade samosas'):''}" loading="lazy">
+    </div>
+    <div class="body">
+      <h3 data-product="${p.id}">${p.name}</h3>
+      <p class="desc">${p.desc}</p>
+      <div class="foot">
+        <span class="price">${money(p.price)} ${per}</span>
+        <button class="add-btn" data-add="${p.id}" aria-label="Add ${p.name} to basket">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>Add
+        </button>
+      </div>
+    </div>
+  </article>`;
+}
+// global add/view delegation
+document.addEventListener('click',e=>{
+  const a=e.target.closest('[data-add]');if(a){const p=byId(a.dataset.add);if(p){
+    if(p.voucher){go('product',{id:p.id});return;}
+    if(p.category==='bundle'&&p.boxes>1){openConfig(p);return;}
+    addProduct(p);
+  }return;}
+  const v=e.target.closest('[data-product]');if(v){go('product',{id:v.dataset.product});}
+});
+
+/* ---------- flavour-per-box configurator (mirrors the live bundle pages) ---------- */
+function openConfig(p,qty){
+  qty=qty||1;
+  const opts=FLAVOURS.map(f=>`<option value="${f.name}">${f.name}</option>`).join('');
+  const rows=Array.from({length:p.boxes},(_,i)=>`
+    <div class="cfg-row">
+      <label for="cfg-${i}">Box ${i+1} <small>· ${p.boxSize} samosas</small></label>
+      <select id="cfg-${i}" class="cfg-sel" aria-label="Flavour for box ${i+1}">${opts}</select>
+    </div>`).join('');
+  const modal=document.getElementById('modal');
+  modal.className='modal';
+  modal.innerHTML=`
+    <div class="cfg">
+      <div class="cfg-head">
+        <img class="cfg-img" src="${p.img}" alt="${p.name}">
+        <div><h3>${p.name}</h3><div class="csub">${p.count} samosas · ${p.boxes} ${p.boxes>1?'boxes':'box'} · choose a flavour for each</div><div class="price">${money(p.price)}</div></div>
+      </div>
+      <div class="cfg-quick">
+        <button class="pill" id="cfg-mix">✨ Big Mum’s mix</button>
+        <button class="pill" id="cfg-veg">All Original Veg</button>
+      </div>
+      <div class="cfg-rows">${rows}</div>
+      <div class="cfg-foot">
+        <button class="btn btn-ghost" id="cfg-cancel">Cancel</button>
+        <button class="btn btn-primary" id="cfg-add" style="flex:1">Add to basket · ${money(p.price)}</button>
+      </div>
+      <div class="cfg-note">Your flavour choices travel with the order as per-box notes — on the live store these are line-item properties handled by the bundle app.</div>
+    </div>`;
+  modalOv.classList.add('open');
+  const sels=[...modal.querySelectorAll('.cfg-sel')];
+  modal.querySelector('#cfg-mix').onclick=()=>sels.forEach((s,i)=>s.value=FLAVOURS[i%FLAVOURS.length].name);
+  modal.querySelector('#cfg-veg').onclick=()=>sels.forEach(s=>s.value='Original Veg');
+  modal.querySelector('#cfg-cancel').onclick=closeModal;
+  modal.querySelector('#cfg-add').onclick=()=>{
+    const picks=sels.map(s=>s.value);
+    const flavText=picks.map((f,i)=>`Box ${i+1}: ${f}`).join(' · ');
+    addToCart({key:p.id+'|'+picks.join('-'),id:p.id,name:p.name,price:p.price,img:p.img,qty,sub:p.sub||'',custom:false,flavText});
+    closeModal();openCart();
+  };
+}
+document.addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ')&&e.target.matches('.thumb[data-product]')){e.preventDefault();go('product',{id:e.target.dataset.product});}
+});
+
+/* ---- Google reviews (PLACEHOLDER sample content — swap for a live Google feed) ---- */
+const REVIEWS=[
+  {n:'Priya S.',w:'Local Guide · 24 reviews',t:'Genuinely the best samosas I’ve had outside my nani’s kitchen. The pastry is unbelievably thin and crispy. Reheated perfectly in the air-fryer.'},
+  {n:'James W.',w:'8 reviews',t:'Ordered the 50 box for an office party and they vanished in minutes. Delivery was bang on time and everything arrived fresh.'},
+  {n:'Aisha K.',w:'Local Guide · 51 reviews',t:'The Chilli Paneer is dangerously good. Lovely family business and you can taste the care in every bite. Will be reordering.'},
+  {n:'Tom B.',w:'3 reviews',t:'Had these catered for our wedding and the guests kept asking where they were from. Smooth from order to service.'},
+  {n:'Meera P.',w:'17 reviews',t:'The Cheeseburger samosa sounds mad but it works. Kids are obsessed. Free delivery over £40 is a nice touch too.'},
+  {n:'Daniel O.',w:'Local Guide · 32 reviews',t:'Proper handmade quality. DPD tracking kept me updated all day and they turned up chilled and well packed.'},
+];
+const GSVG='<svg class="rev-g" viewBox="0 0 24 24"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7C21.8 19 23 15.9 23 12.3z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3C3.7 21.4 7.5 24 12 24z"/><path fill="#FBBC04" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 12 0C7.5 0 3.7 2.6 1.8 6.4l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg>';
+function reviewCards(){return REVIEWS.map(r=>{
+  const init=r.n.split(' ').map(x=>x[0]).join('').slice(0,2);
+  return `<div class="rev-card">
+    <div class="rev-top"><span class="rev-av">${init}</span><div class="rev-id"><b>${r.n}</b><small>${r.w}</small></div>${GSVG}</div>
+    <div class="rev-stars" aria-label="5 out of 5 stars">★★★★★</div>
+    <p class="rev-text">${r.t}</p>
+  </div>`;}).join('');}
+
+/* festive product card for the Christmas section */
+function xmasCard(p){
+  if(!p)return '';
+  const tag=p.season==='christmas'?'<span class="xtag ltd">Limited edition</span>':'<span class="xtag fav">Festive favourite</span>';
+  return `<article class="xcard reveal">
+    <div class="xcard-img" data-product="${p.id}" role="button" tabindex="0" aria-label="View ${p.name}">
+      ${tag}
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+    </div>
+    <div class="xcard-b">
+      <h4 data-product="${p.id}">${p.name}</h4>
+      <p>${p.desc}</p>
+      <div class="xcard-f"><span class="price">${money(p.price)}</span>
+        <button class="xadd" data-add="${p.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="14" height="14"><path d="M12 5v14M5 12h14"/></svg>Add</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+/* =========================================================================
+   VIEW: HOME
+   ========================================================================= */
+VIEWS.home=function(){
+  const feat=byHandle('bundle-box-12x-samosas');
+  const best=[byHandle('bundle-box-12x-samosas'),byHandle('original-veg-box-of-10'),byHandle('chicken-tikka-box-of-10'),byHandle('the-cheeseburger-box-of-10')];
+  const node=el(`<div>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg"><img src="${IMG.hero}" alt="A spread of Big Mum’s freshly made handmade samosas" fetchpriority="high"></div>
+      <div class="hero-scrim"></div>
+      <span class="tri-deco" style="top:12%;right:8%;transform:rotate(22deg)"></span>
+      <span class="tri-deco" style="bottom:16%;right:26%;transform:rotate(-140deg);opacity:.1"></span>
+      ${SEASON==='christmas'?'<span class="hero-lights"></span>':''}
+      <div class="hero-inner">
+        <div class="col">
+          ${SEASON==='christmas'?'<div><span class="hero-xbadge">🎄 Christmas is here</span></div>':''}
+          <span class="eyebrow">Handmade in London since 2020</span>
+          <h1><span class="l">Handmade with love.</span><span class="l">Delivered with a <em>crunch.</em></span></h1>
+          <p class="hero-sub">Freshly made in London, delivered chilled to your door.</p>
+          <div class="hero-ctas">
+            ${SEASON==='christmas'
+              ?`<button class="btn btn-primary btn-lg" data-nav="shop" data-cat="seasonal" style="background:#ffd98a;color:#3a1a0a">Shop Christmas</button>
+                <button class="btn btn-ghost btn-lg" data-nav="shop">All samosas</button>`
+              :`<button class="btn btn-primary btn-lg" data-nav="shop">Shop Samosas</button>
+                <button class="btn btn-ghost btn-lg" data-nav="story">Discover Our Story</button>`}
+          </div>
+          <div class="hero-chips">
+            <span class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 4v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V7l7-4z"/></svg>Handmade in London</span>
+            <span class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg>Free delivery over £40</span>
+            <span class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg>Ready in 6–8 mins</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    ${SEASON==='christmas'?`
+    <!-- CHRISTMAS (seasonal · auto-hidden when SEASON!=='christmas') -->
+    <section class="band xmas">
+      <svg class="xmas-bg" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <defs>
+          <path id="pine" d="M0 0 L-13 0 L-8 -13 L-10 -13 L-4 -27 L-6 -27 L0 -40 L6 -27 L4 -27 L10 -13 L8 -13 L13 0 Z"/>
+        </defs>
+        <!-- soft bokeh lights -->
+        <g fill="#ffd98a">
+          <circle cx="110" cy="60" r="6" opacity=".22"/><circle cx="300" cy="42" r="4" opacity=".16"/><circle cx="520" cy="72" r="7" opacity=".2"/>
+          <circle cx="760" cy="48" r="5" opacity=".2"/><circle cx="980" cy="66" r="6" opacity=".16"/><circle cx="1130" cy="44" r="4" opacity=".2"/>
+          <circle cx="210" cy="130" r="3" opacity=".14"/><circle cx="660" cy="140" r="3" opacity=".14"/><circle cx="1050" cy="120" r="3" opacity=".14"/>
+        </g>
+        <!-- back snow hill -->
+        <path d="M0 330 Q300 280 600 320 T1200 310 V420 H0 Z" fill="#ffffff" opacity=".05"/>
+        <!-- pine forest silhouette -->
+        <g fill="#082821" opacity=".5">
+          <use href="#pine" transform="translate(70 352) scale(1.5)"/>
+          <use href="#pine" transform="translate(150 356) scale(1.1)"/>
+          <use href="#pine" transform="translate(240 350) scale(1.8)"/>
+          <use href="#pine" transform="translate(360 356) scale(1.2)"/>
+          <use href="#pine" transform="translate(470 352) scale(1.6)"/>
+          <use href="#pine" transform="translate(600 357) scale(1.0)"/>
+          <use href="#pine" transform="translate(720 351) scale(1.7)"/>
+          <use href="#pine" transform="translate(850 356) scale(1.2)"/>
+          <use href="#pine" transform="translate(960 350) scale(1.9)"/>
+          <use href="#pine" transform="translate(1080 355) scale(1.3)"/>
+          <use href="#pine" transform="translate(1160 352) scale(1.5)"/>
+        </g>
+        <!-- front snow drift -->
+        <path d="M0 362 Q300 334 600 360 T1200 352 V420 H0 Z" fill="#ffffff" opacity=".09"/>
+      </svg>
+      <div class="wrap">
+        <div class="xhead">
+          <div class="holly">🎄</div>
+          <span class="eyebrow">Christmas at Big Mum’s</span>
+          <h2>The festive collection</h2>
+          <div class="xrule"></div>
+          <p class="lede">Hand-folded samosas make the perfect festive gift — from limited-edition sweet mince-pie samosas to gift boxes and vouchers, delivered chilled across the UK. Use code <strong>${XMAS_CODE}</strong> for 10% off your first order.</p>
+          <div class="xnote">
+            <span><span class="g">🎁</span> Gift-ready boxes</span>
+            <span><span class="g">❄</span> Delivered chilled, Tue–Sat</span>
+            <span><span class="g">✦</span> Order early for Christmas</span>
+          </div>
+        </div>
+        <div class="xgrid">${XMAS_FEATURE.map(id=>xmasCard(byId(id))).join('')}</div>
+        <div class="xmas-cta">
+          <button class="btn btn-gold btn-lg" data-nav="shop" data-cat="seasonal">Shop the collection →</button>
+          <button class="btn btn-outline btn-lg" data-nav="catering">Festive catering</button>
+        </div>
+      </div>
+    </section>`:''}
+
+    <!-- TRUST -->
+    <section class="trust"><div class="wrap">
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 4v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V7l7-4z"/></svg><div><b>Handmade in London</b><small>Folded by hand, never mass-produced</small></div></div>
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg><div><b>Family recipes</b><small>50 years of Big Mum’s craft</small></div></div>
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg><div><b>UK mainland delivery</b><small>Tue–Sat · free over £40</small></div></div>
+      <div class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg><div><b>Ready in minutes</b><small>Oven or air-fryer, 6–8 mins</small></div></div>
+    </div></section>
+
+    <!-- BESTSELLERS -->
+    <section class="band"><div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">Shop the range</span><h2>Our best-loved samosas</h2><p>A curated pick of the boxes customers come back for. Browse the full range to find your flavour.</p></div>
+        <a href="#" class="link" data-nav="shop">View all products →</a>
+      </div>
+      <div class="grid c4">${best.map(productCard).join('')}</div>
+    </div></section>
+
+    <!-- FIND YOUR BOX -->
+    <section class="band alt"><div class="wrap">
+      <div class="sec-head"><div><span class="eyebrow">Find your perfect box</span><h2>How many are you feeding?</h2><p>Every box arrives as sealed, hand-folded portions — so it’s easy to pick the right amount. Prices verified against the live store.</p></div></div>
+      <div class="boxrow">
+        ${BUNDLES.map(b=>`<div class="boxcard ${b.feat?'feat':''}">
+          ${b.feat?'<span class="flag">Most loved</span>':''}
+          <div class="qty">${b.count}<span> samosas</span></div>
+          <div class="muted" style="font-size:.8rem;font-weight:600">${b.sub}</div>
+          <p class="for">${b.for}</p>
+          <div class="pr">${money(b.price)}<small>${money(b.price/b.count)} per samosa</small></div>
+          <button class="btn btn-dark btn-block" data-add="${b.id}" style="margin-top:.6rem">Add to basket</button>
+          <button class="btn btn-ghost btn-block" data-product="${b.id}">Details</button>
+        </div>`).join('')}
+      </div>
+      <div style="text-align:center;margin-top:1.6rem"><button class="btn btn-primary btn-lg" data-nav="builder">Or build your own mix →</button></div>
+    </div></section>
+
+    <!-- FOUNDER -->
+    <section class="band"><div class="wrap">
+      <div class="founder">
+        <div class="pic reveal"><img src="${IMG.life1}" alt="Big Mum’s handmade samosas, freshly folded" width="640" height="800" loading="lazy"></div>
+        <div class="reveal">
+          <span class="eyebrow">Meet Big Mum</span>
+          <h2>The Samosa Queen of London</h2>
+          <p class="lead">For over five decades, Sushma Rani Makol — known to everyone as Big Mum — has been folding the thinnest, crispiest samosa pastry her community has ever tasted.</p>
+          <p>In 2020 her grandchildren set out to share that craft more widely, and Big Mum’s Samosas was born. What began as a family recipe is now delivered to samosa lovers across London and England.</p>
+          <blockquote class="pull">“Every samosa is folded by hand — just the way Big Mum has always done it.”</blockquote>
+          <button class="btn btn-ghost" data-nav="story">Read the full story →</button>
+        </div>
+      </div>
+    </div></section>
+
+    <!-- FLAVOURS -->
+    <section class="band alt"><div class="wrap">
+      <div class="sec-head"><div><span class="eyebrow">Explore the flavours</span><h2>Seven ways to fall in love</h2><p>From the Original Veg to the famous Cheeseburger and sweet Choco Bites — each box holds 10 handmade samosas.</p></div>
+      <a href="#" class="link" data-nav="flavours">All flavours →</a></div>
+      <div class="flav-grid">
+        ${FLAVOURS.map(f=>`<div class="flav reveal" data-product="${f.id}" role="button" tabindex="0" aria-label="View ${f.name}">
+          <img src="${f.img}" alt="${f.name} samosas" loading="lazy">
+          <div class="ov"><h4>${f.name}</h4><small>${f.kind==='sweet'?'Sweet':'Savoury'} · £27 / box of 10</small></div>
+        </div>`).join('')}
+        <div class="flav chut-card reveal">
+          <div class="chut-pic"><img src="${CHUTNEY[0].img}" alt="Big Mum’s homemade chutney" loading="lazy"></div>
+          <span class="ribbon">+ The perfect dip</span>
+          <div class="ov">
+            <h4 data-product="${CHUTNEY[0].id}" style="cursor:pointer">Homemade Chutney</h4>
+            <small>105ml jar · £3 — pairs with every flavour</small>
+            <button class="cadd" data-add="${CHUTNEY[0].id}">Add a jar +</button>
+          </div>
+        </div>
+      </div>
+    </div></section>
+
+    <!-- JOURNEY: kitchen to table -->
+    <section class="band"><div class="wrap">
+      <div class="sec-head" style="justify-content:center;text-align:center"><div><span class="eyebrow" style="justify-content:center">The journey</span><h2>From our kitchen to your table</h2></div></div>
+      <div class="journey">
+        <div class="jnode reveal">
+          <span class="jnum">1</span>
+          <div class="jart">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <linearGradient id="jk-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FCF2E0"/><stop offset="1" stop-color="#F5E4C8"/></linearGradient>
+                <linearGradient id="jk-wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E7B784"/><stop offset="1" stop-color="#D49C5F"/></linearGradient>
+                <linearGradient id="jk-bowl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D1662A"/><stop offset="1" stop-color="#AB4C1A"/></linearGradient>
+                <linearGradient id="jk-sam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4BB64"/><stop offset="1" stop-color="#DC8C34"/></linearGradient>
+              </defs>
+              <rect width="120" height="120" fill="url(#jk-wall)"/>
+              <circle cx="94" cy="27" r="15" fill="#F6DCAE" opacity=".5"/>
+              <!-- spice shelf -->
+              <rect x="70" y="30" width="38" height="3" rx="1.5" fill="#CBA074"/>
+              <rect x="76" y="20" width="9" height="10" rx="1.5" fill="#C2561F"/><rect x="76" y="20" width="9" height="3" fill="#8A3E14"/>
+              <rect x="90" y="22" width="8" height="8" rx="1.5" fill="#7FA05A"/><rect x="90" y="22" width="8" height="2.6" fill="#5E7A40"/>
+              <!-- counter -->
+              <rect y="86" width="120" height="34" fill="url(#jk-wood)"/>
+              <rect y="86" width="120" height="3" fill="#F0D3A8" opacity=".7"/>
+              <ellipse cx="45" cy="88" rx="22" ry="4" fill="#9A6A3C" opacity=".3"/>
+              <!-- mixing bowl + dough -->
+              <path d="M26 71 a19 12 0 0 0 38 0 Z" fill="url(#jk-bowl)"/>
+              <path d="M30 76 a15 7 0 0 0 30 0" fill="none" stroke="#8A3E14" stroke-width="1.2" opacity=".45"/>
+              <ellipse cx="45" cy="70.5" rx="19" ry="5.4" fill="#EEE4CE"/>
+              <ellipse cx="45" cy="69.5" rx="19" ry="4.8" fill="#F3EAD6"/>
+              <circle cx="40" cy="70" r="1" fill="#DDCBA6"/><circle cx="51" cy="71" r="1" fill="#DDCBA6"/>
+              <!-- rolling pin -->
+              <rect x="56" y="48" width="44" height="12" rx="6" fill="#EFDFC2" stroke="#CDA069" stroke-width="1.6"/>
+              <path d="M62 51.5 H94 M62 56.5 H94" stroke="#DBC199" stroke-width="1" opacity=".7"/>
+              <rect x="50" y="51" width="8" height="6" rx="3" fill="#A9743F"/>
+              <rect x="98" y="51" width="9" height="6" rx="3" fill="#A9743F"/>
+              <!-- folded samosa -->
+              <ellipse cx="90" cy="89" rx="11" ry="2.6" fill="#9A6A3C" opacity=".3"/>
+              <path d="M80 87 L90 69 L100 87 Z" fill="url(#jk-sam)" stroke="#C07B2A" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M90 69 L84 80 M90 69 L96 80" stroke="#F7D49A" stroke-width="1.2" opacity=".85"/>
+              <!-- steam + flour -->
+              <path d="M45 62 q-6 -7 2 -14" fill="none" stroke="#CBAE90" stroke-width="2.4" stroke-linecap="round" opacity=".6"/>
+              <circle cx="38" cy="42" r="1.5" fill="#D9C3A0"/><circle cx="66" cy="40" r="1.4" fill="#D9C3A0"/><circle cx="54" cy="46" r="1.1" fill="#D9C3A0"/>
+            </svg>
+          </div>
+          <div class="jlabel">Step one</div>
+          <h4>Folded by hand</h4>
+          <p>Every samosa is made fresh in London — Big Mum’s thin, crisp pastry around seven handmade fillings.</p>
+        </div>
+        <div class="jnode reveal">
+          <span class="jnum">2</span>
+          <div class="jart">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <linearGradient id="jd-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E6CA"/><stop offset="1" stop-color="#EBD2A9"/></linearGradient>
+                <linearGradient id="jd-road" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E4F34"/><stop offset="1" stop-color="#523A26"/></linearGradient>
+                <linearGradient id="jd-van" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D1662A"/><stop offset="1" stop-color="#B14F1C"/></linearGradient>
+              </defs>
+              <rect width="120" height="120" fill="url(#jd-sky)"/>
+              <circle cx="26" cy="27" r="13" fill="#F7DBA7" opacity=".55"/>
+              <!-- distant houses -->
+              <path d="M4 74 V56 L16 47 L28 56 V74 Z" fill="#E4C094"/><rect x="11" y="62" width="8" height="12" fill="#C99C6C"/>
+              <path d="M30 74 V60 L39 53 L48 60 V74 Z" fill="#DCB888" opacity=".85"/>
+              <!-- road -->
+              <rect y="92" width="120" height="28" fill="url(#jd-road)"/>
+              <rect y="92" width="120" height="2.5" fill="#7E5C3C"/>
+              <line x1="0" y1="107" x2="120" y2="107" stroke="#F3E3CC" stroke-width="3" stroke-dasharray="12 9" opacity=".5"/>
+              <ellipse cx="72" cy="95" rx="38" ry="4" fill="#3A281A" opacity=".3"/>
+              <!-- van -->
+              <rect x="36" y="56" width="44" height="30" rx="4" fill="url(#jd-van)"/>
+              <rect x="36" y="56" width="44" height="7" rx="4" fill="#E07A36" opacity=".55"/>
+              <path d="M80 64 h15 l10 11 v11 H80 Z" fill="#C45A20"/>
+              <rect x="84" y="67" width="14" height="10" rx="1.6" fill="#CFE6EF"/><path d="M84 67 l14 10" stroke="#fff" stroke-width="1" opacity=".5"/>
+              <rect x="103" y="78" width="3" height="5" fill="#F7D08A"/>
+              <rect x="36" y="84" width="70" height="3" fill="#8A3E14"/>
+              <circle cx="50" cy="90" r="8" fill="#2E2016"/><circle cx="50" cy="90" r="3.4" fill="#8A6A4A"/>
+              <circle cx="94" cy="90" r="8" fill="#2E2016"/><circle cx="94" cy="90" r="3.4" fill="#8A6A4A"/>
+              <!-- parcel on roof -->
+              <rect x="46" y="45" width="14" height="12" rx="1" fill="#E8A24A"/><path d="M53 45 V57 M46 51 H60" stroke="#C07B2A" stroke-width="1.5"/>
+              <!-- motion -->
+              <path d="M32 64 H22 M34 72 H24 M33 80 H26" stroke="#CDA471" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
+            </svg>
+          </div>
+          <div class="jlabel">Step two</div>
+          <h4>Delivered to your day</h4>
+          <p>Nominated-day delivery by DPD, Tuesday to Saturday, across UK mainland — free over £40.</p>
+        </div>
+        <div class="jnode reveal">
+          <span class="jnum">3</span>
+          <div class="jart">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <linearGradient id="je-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FCF2E0"/><stop offset="1" stop-color="#F6E6CC"/></linearGradient>
+                <linearGradient id="je-wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E7B784"/><stop offset="1" stop-color="#D49C5F"/></linearGradient>
+                <linearGradient id="je-sam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4BB64"/><stop offset="1" stop-color="#DC8C34"/></linearGradient>
+              </defs>
+              <rect width="120" height="120" fill="url(#je-wall)"/>
+              <circle cx="30" cy="28" r="13" fill="#F6DCAE" opacity=".45"/>
+              <rect y="90" width="120" height="30" fill="url(#je-wood)"/>
+              <rect y="90" width="120" height="3" fill="#F0D3A8" opacity=".7"/>
+              <ellipse cx="48" cy="90" rx="36" ry="4" fill="#9A6A3C" opacity=".3"/>
+              <!-- plate -->
+              <ellipse cx="48" cy="86" rx="35" ry="9.5" fill="#E6DDCB"/>
+              <ellipse cx="48" cy="84.5" rx="35" ry="8.5" fill="#FBF7EE"/>
+              <ellipse cx="48" cy="84" rx="26" ry="6" fill="#F1E9D8"/>
+              <!-- samosas with flaky layers -->
+              <path d="M34 83 L43 66 L52 83 Z" fill="url(#je-sam)" stroke="#C07B2A" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M43 66 L38 77 M43 66 L48 77" stroke="#F7D49A" stroke-width="1.1" opacity=".85"/>
+              <path d="M50 83 L57 69 L64 83 Z" fill="#EFB15E" stroke="#C07B2A" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M57 69 L53 78 M57 69 L61 78" stroke="#F7D49A" stroke-width="1.1" opacity=".85"/>
+              <!-- chai cup on saucer -->
+              <ellipse cx="92" cy="85" rx="13" ry="3.2" fill="#E6DDCB"/>
+              <path d="M83 72 h18 v9 a9 9 0 0 1 -18 0 Z" fill="#C2561F"/>
+              <path d="M83 72 h18 v3 a9 2 0 0 1 -18 0 Z" fill="#E07A36" opacity=".5"/>
+              <ellipse cx="92" cy="72" rx="9" ry="2.6" fill="#6E3214"/>
+              <path d="M101 74 a6 6 0 0 1 0 9" fill="none" stroke="#C2561F" stroke-width="3"/>
+              <!-- steam -->
+              <path d="M44 60 q-5 -7 2 -13 M90 65 q5 -7 -2 -13" fill="none" stroke="#CBAE90" stroke-width="2.4" stroke-linecap="round" opacity=".6"/>
+            </svg>
+          </div>
+          <div class="jlabel">Step three</div>
+          <h4>Reheat &amp; enjoy</h4>
+          <p>Oven or air-fryer at 180°C for 6–8 minutes, rest, then tuck in with chutney. That’s it.</p>
+        </div>
+      </div>
+    </div></section>
+
+    <!-- CATERING -->
+    <section class="band alt"><div class="wrap">
+      <div class="feature reveal">
+        <div class="ph"><img src="${IMG.cater1}" alt="Big Mum’s samosas catering set-up at an event" loading="lazy"></div>
+        <div class="tx">
+          <span class="eyebrow">Catering &amp; celebrations</span>
+          <h2>Samosas for every occasion</h2>
+          <p class="muted">From market stalls to weddings, our team travels, sets up on site and serves your guests. Tell us what you need and we’ll build the right set-up.</p>
+          <ul><li>Corporate events</li><li>Private parties</li><li>Weddings</li><li>Festivals</li><li>Conferences</li></ul>
+          <div style="margin-top:.6rem"><button class="btn btn-primary" data-nav="catering">Plan your event →</button></div>
+        </div>
+      </div>
+    </div></section>
+
+    <!-- CHUTNEY -->
+    <section class="band"><div class="wrap">
+      <div class="chut">
+        <div class="reveal">
+          <span class="eyebrow">Perfect pairings</span>
+          <h2>Don’t forget the chutney</h2>
+          <p class="muted" style="margin:.8rem 0 1.2rem">Big Mum’s homemade chutneys are the finishing touch to every box — a 105ml jar of the good stuff, ready to dip. Add one to your order in a tap.</p>
+          <button class="btn btn-dark" data-add="${CHUTNEY[0].id}">Add chutney · £3</button>
+        </div>
+        <div class="jars reveal">
+          ${CHUTNEY[0].images.slice(1,4).map(src=>`<div class="jar"><img src="${src}" alt="Big Mum’s homemade chutney" loading="lazy"></div>`).join('')}
+        </div>
+      </div>
+    </div></section>
+
+    <!-- VISIT US / STORE LOCATION -->
+    <section class="band alt"><div class="wrap">
+      <div class="visit">
+        <div class="visit-map reveal">
+          <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map showing Big Mum’s shop location">
+            <rect class="m-bg" width="400" height="300"/>
+            <g class="m-road1" stroke-width="10" fill="none" stroke-linecap="round">
+              <path d="M-10 90 H410"/><path d="M-10 210 H410"/><path d="M120 -10 V310"/><path d="M280 -10 V310"/>
+            </g>
+            <g class="m-road2" stroke-width="4" fill="none">
+              <path d="M-10 150 H410"/><path d="M200 -10 V310"/><path d="M60 -10 V310"/><path d="M340 -10 V310"/><path d="M-10 50 H410"/><path d="M-10 260 H410"/>
+            </g>
+            <path class="m-river" d="M-10 40 q120 60 200 30 t220 60" stroke-width="14" fill="none" opacity=".5"/>
+            <g>
+              <ellipse cx="200" cy="168" rx="26" ry="8" fill="rgba(0,0,0,.14)"/>
+              <path class="m-pin" d="M200 70 c-24 0 -42 18 -42 42 0 30 42 56 42 56 s42-26 42-56 c0-24-18-42-42-42z"/>
+              <circle cx="200" cy="112" r="15" fill="#fff"/>
+              <path class="m-pin" d="M200 104 l6 11 h-12 z"/>
+            </g>
+          </svg>
+          <iframe class="gmap" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Big Mum’s Samosas on Google Maps" src="https://www.google.com/maps?q=Big%20Mum%27s%20Samosas%2C%20London&output=embed"></iframe>
+          <span class="vcap">Live Google Map · set your exact Place for launch</span>
+        </div>
+        <div class="visit-info reveal">
+          <span class="eyebrow">Visit us</span>
+          <h2>Come say hello</h2>
+          <p class="lead">Big Mum’s began as a London family kitchen, and it still is one at heart. Sushma Rani Makol — Big Mum — has been folding the thinnest, crispiest samosa pastry for over 50 years, and in 2020 her grandchildren set out to share that craft with the world.</p>
+          <div class="visit-story">
+            <p>Everything is still made fresh by hand, the same way it always has been. Drop by to pick up a box, say hello, and catch the smell of pastry straight from the kitchen.</p>
+          </div>
+          <div class="visit-card">
+            <div class="vc"><h5>Find us</h5><p class="ph">Your shop address, London</p></div>
+            <div class="vc"><h5>Opening hours</h5><p class="ph">Add your opening times</p></div>
+            <div class="vc"><h5>Get in touch</h5><p>hello@bigmumsamosas.com</p></div>
+            <div class="vc"><h5>Delivery</h5><p>UK mainland · Tue–Sat</p></div>
+          </div>
+          <div class="visit-ctas">
+            <button class="btn btn-primary" data-nav="contact">Contact us</button>
+            <button class="btn btn-ghost" data-nav="catering">Book catering</button>
+          </div>
+        </div>
+      </div>
+    </div></section>
+
+    <!-- GOOGLE REVIEWS (auto-scrolling marquee · placeholder content) -->
+    <section class="band"><div class="wrap">
+      <div class="sec-head" style="justify-content:center;text-align:center"><div><span class="eyebrow" style="justify-content:center">Loved by customers</span><h2>What people are saying</h2><p style="margin-inline:auto">Reviews from happy samosa lovers across the UK.</p></div></div>
+    </div>
+      <div class="rev-wrap" role="region" aria-label="Customer reviews">
+        <div class="rev-track">${reviewCards()}${reviewCards()}</div>
+      </div>
+      <div class="wrap"><div class="rev-src">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7C21.8 19 23 15.9 23 12.3z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3C3.7 21.4 7.5 24 12 24z"/><path fill="#FBBC04" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 12 0C7.5 0 3.7 2.6 1.8 6.4l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg>
+        <span>Reviews on Google</span>
+      </div></div>
+    </section>
+
+    <!-- SIGNUP -->
+    <section class="band"><div class="wrap">
+      <div class="signup photo reveal" style="background-image:linear-gradient(140deg,rgba(18,10,5,.84) 0%,rgba(74,30,12,.6) 55%,rgba(120,55,20,.5) 100%),url('${IMG.life1}')">
+        <svg class="signup-art" viewBox="0 0 600 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <path id="smsa" d="M0 -25 L22 19 Q24 24 18 24 L-18 24 Q-24 24 -22 19 Z"/>
+          </defs>
+          <!-- scattered samosa folds around the edges -->
+          <g transform="translate(58 54) rotate(-18) scale(1.15)"><use href="#smsa" class="fill"/><path class="ln-fold" d="M0 -22 L0 21"/></g>
+          <g transform="translate(130 250) rotate(12) scale(.9)"><use href="#smsa" class="ln"/><path class="ln-fold" d="M0 -22 L0 21"/></g>
+          <g transform="translate(540 70) rotate(22) scale(1.05)"><use href="#smsa" class="ln"/><path class="ln-fold" d="M0 -22 L0 21"/></g>
+          <g transform="translate(560 240) rotate(-14) scale(1.25)"><use href="#smsa" class="fill"/><path class="ln-fold" d="M0 -22 L0 21"/></g>
+          <g transform="translate(300 272) rotate(6) scale(.8)"><use href="#smsa" class="fill-deep"/></g>
+          <g transform="translate(470 30) rotate(-8) scale(.7)"><use href="#smsa" class="fill-deep"/></g>
+          <!-- steam curls rising from the top-left fold (freshly cooked) -->
+          <path class="steam" d="M50 24 q-7 -12 2 -22 q7 -9 1 -20"/>
+          <path class="steam" d="M66 22 q6 -11 -2 -21 q-6 -8 1 -18" opacity=".7"/>
+          <!-- sesame / chutney speckle -->
+          <circle class="dot" cx="210" cy="40" r="3.5"/>
+          <circle class="dot-d" cx="250" cy="70" r="2.5"/>
+          <circle class="dot" cx="400" cy="250" r="3"/>
+          <circle class="dot-d" cx="360" cy="40" r="2.5"/>
+          <circle class="dot" cx="520" cy="150" r="3"/>
+          <circle class="dot-d" cx="90" cy="150" r="2.5"/>
+          <circle class="dot" cx="180" cy="210" r="3"/>
+        </svg>
+        <h2>New flavours, first.</h2>
+        <p>Join Big Mum’s list for new flavours, seasonal boxes and the occasional treat. No spam — just samosas.</p>
+        <form id="signup-form" novalidate>
+          <input type="email" id="signup-email" placeholder="your@email.com" aria-label="Email address" required>
+          <button class="btn btn-primary" type="submit">Join the list</button>
+        </form>
+        <p class="consent">By subscribing you agree to receive marketing emails from Big Mum’s Samosas. You can unsubscribe at any time. See our Privacy Policy.</p>
+      </div>
+    </div></section>
+  </div>`);
+  // signup handler
+  node.querySelector('#signup-form').addEventListener('submit',e=>{
+    e.preventDefault();const em=node.querySelector('#signup-email');
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value)){em.focus();toast('Please enter a valid email');return;}
+    em.value='';toast('Thanks — you’re on the list! 🎉');
+  });
+  // fade the live Google map in once it loads (stays on the styled fallback if blocked, e.g. in preview)
+  node.querySelectorAll('.gmap').forEach(f=>f.addEventListener('load',()=>{f.style.opacity=1;}));
+  return node;
+};
+
+/* =========================================================================
+   VIEW: SHOP
+   ========================================================================= */
+let shopState={cat:'all',diet:'all',sort:'featured'};
+VIEWS.shop=function(param){
+  if(param&&param.cat)shopState.cat=param.cat;
+  const node=el(`<div>
+    <div class="wrap">
+      <div class="crumbs"><a href="#" data-nav="home">Home</a><span class="sep">/</span><span>Shop</span></div>
+      <div class="shop-head"><h1>Shop Samosas</h1><p class="muted">Handmade boxes, bundles, chutneys and seasonal specials — all delivered to your door.</p></div>
+    </div>
+    <div class="wrap">
+      <div id="season-strip-mount"></div>
+      <div class="toolbar">
+        <div class="filter-group" id="cat-filter" role="group" aria-label="Filter by category">
+          <button class="pill" data-cat="all">All</button>
+          <button class="pill" data-cat="bundle">Bundles</button>
+          <button class="pill" data-cat="flavour">Signature flavours</button>
+          <button class="pill" data-cat="chutney">Chutneys</button>
+          <button class="pill" data-cat="seasonal">Seasonal</button>
+          <button class="pill" data-cat="gift">Gifts</button>
+        </div>
+        <div class="spacer"></div>
+        <div class="filter-group" id="diet-filter" role="group" aria-label="Filter by dietary">
+          <button class="pill" data-diet="Vegetarian">Vegetarian</button>
+          <button class="pill" data-diet="Sweet">Sweet</button>
+          <button class="pill" data-diet="Savoury">Savoury</button>
+        </div>
+        <select id="sort" aria-label="Sort products">
+          <option value="featured">Sort: Featured</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+        </select>
+      </div>
+      <div id="shop-results"></div>
+    </div>
+  </div>`);
+  // seasonal strip if diwali active
+  const diwaliActive=SEASONAL.some(s=>s.season==='diwali'&&s.available);
+  if(diwaliActive){
+    node.querySelector('#season-strip-mount').innerHTML=`<div class="season-strip"><span class="sj">✨ Diwali is here</span><p>Limited-edition festive gift boxes and sweet samosas — available while the season lasts.</p><button class="btn" data-cat-set="seasonal">Shop Diwali</button></div>`;
+  }
+  const render=()=>{
+    // active pills
+    node.querySelectorAll('#cat-filter .pill').forEach(b=>b.setAttribute('aria-pressed',b.dataset.cat===shopState.cat));
+    node.querySelectorAll('#diet-filter .pill').forEach(b=>b.setAttribute('aria-pressed',b.dataset.diet===shopState.diet));
+    node.querySelector('#sort').value=shopState.sort;
+    let items=ALL.filter(p=>!p.voucher||true);
+    // category
+    const cats=shopState.cat==='all'?['bundle','flavour','chutney','seasonal','gift']:[shopState.cat];
+    let list=ALL.filter(p=>cats.includes(p.category));
+    // diet
+    if(shopState.diet!=='all')list=list.filter(p=>p.diet&&p.diet.includes(shopState.diet));
+    // sort
+    if(shopState.sort==='low')list.sort((a,b)=>a.price-b.price);
+    else if(shopState.sort==='high')list.sort((a,b)=>b.price-a.price);
+    const res=node.querySelector('#shop-results');
+    if(!list.length){res.innerHTML='<p class="muted" style="padding:2rem 0">No products match these filters. <button class="pill" data-clear>Clear filters</button></p>';return;}
+    // group by category when "all"
+    if(shopState.cat==='all'&&shopState.diet==='all'&&shopState.sort==='featured'){
+      const groups=[['bundle','Samosa Bundles'],['flavour','Signature Flavours'],['seasonal','Seasonal Specials'],['chutney','Chutneys'],['gift','Gifts']];
+      res.innerHTML=groups.map(([c,label])=>{
+        const g=ALL.filter(p=>p.category===c);if(!g.length)return '';
+        return `<h2 class="cat-head">${label}</h2><div class="grid c4">${g.map(productCard).join('')}</div>`;
+      }).join('');
+    }else{
+      res.innerHTML=`<div class="grid c4">${list.map(productCard).join('')}</div>`;
+    }
+    initReveal();
+  };
+  node.addEventListener('click',e=>{
+    const c=e.target.closest('[data-cat]');if(c){shopState.cat=c.dataset.cat;shopState.diet='all';render();return;}
+    const cs=e.target.closest('[data-cat-set]');if(cs){shopState.cat=cs.dataset.catSet;render();window.scrollTo({top:node.querySelector('.toolbar').offsetTop-80,behavior:'smooth'});return;}
+    const d=e.target.closest('[data-diet]');if(d){shopState.diet=shopState.diet===d.dataset.diet?'all':d.dataset.diet;render();return;}
+    if(e.target.closest('[data-clear]')){shopState={cat:'all',diet:'all',sort:'featured'};render();}
+  });
+  node.querySelector('#sort').addEventListener('change',e=>{shopState.sort=e.target.value;render();});
+  setTimeout(render,0);
+  return node;
+};
+
+/* =========================================================================
+   VIEW: PRODUCT DETAIL
+   ========================================================================= */
+VIEWS.product=function(param){
+  const p=byId(param&&param.id)||BUNDLES[1];
+  const imgs=p.images&&p.images.length?p.images:[p.img];
+  let qty=1,selVariant=p.variants?p.variants.find(v=>v.id===p.id)||p.variants[0]:null;
+  const per=p.count>0?`<span class="per">${money((selVariant?selVariant.p:p.price)/p.count)} / samosa · ${p.count} samosas</span>`:'';
+  const node=el(`<div class="wrap">
+    <div class="crumbs"><a href="#" data-nav="home">Home</a><span class="sep">/</span><a href="#" data-nav="shop">Shop</a><span class="sep">/</span><span>${p.name}</span></div>
+    <div class="pdp">
+      <div class="gallery">
+        <div class="main"><img id="pdp-main" src="${imgs[0]}" alt="${p.name}" width="700" height="700"></div>
+        ${imgs.length>1?`<div class="thumbs" id="pdp-thumbs">${imgs.map((s,i)=>`<button data-i="${i}" aria-current="${i===0}" aria-label="Image ${i+1}"><img src="${s}" alt=""></button>`).join('')}</div>`:''}
+      </div>
+      <div class="pdp-info">
+        ${p.category==='seasonal'?`<span class="eyebrow">${p.season==='christmas'?'Christmas edition':'Diwali · limited edition'}</span>`:''}
+        <h1>${p.name}</h1>
+        <div class="pdp-price"><span id="pdp-price">${money(selVariant?selVariant.p:p.price)}</span>${per}</div>
+        <div class="avail ${p.available?'':'no'}">${p.available?(p.preorder?'Available to pre-order':'In stock'):'Currently unavailable'}</div>
+        <p class="pdp-desc" style="margin-top:1rem">${p.desc}</p>
+        <div class="pdp-dietary">
+          ${(p.diet||[]).map(d=>`<span class="chip ${d==='Vegetarian'?'veg':d==='Sweet'?'sweet':''}">${d}</span>`).join('')}
+          ${p.boxNote?`<span class="chip">${p.boxNote}</span>`:''}
+        </div>
+        ${p.variants?`<div class="field" style="max-width:220px;margin-bottom:1rem"><label for="pdp-var">Amount</label><select id="pdp-var">${p.variants.map(v=>`<option value="${v.id}">${v.t}</option>`).join('')}</select></div>`:''}
+        <div class="qty-row">
+          <div class="stepper">
+            <button id="q-minus" aria-label="Decrease quantity">–</button>
+            <input id="q-input" value="1" inputmode="numeric" aria-label="Quantity">
+            <button id="q-plus" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="btn btn-primary btn-lg" id="pdp-add" style="flex:1;min-width:180px">Add to basket · <span id="pdp-add-price">${money(selVariant?selVariant.p:p.price)}</span></button>
+        </div>
+        <div class="deliv-sum">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg>
+          <div><b>Delivery</b> — UK mainland, Tuesday to Saturday. Free nominated-day delivery over £40. <a href="#" data-nav="delivery" style="color:var(--terra-deep);font-weight:600">Full delivery info →</a></div>
+        </div>
+        <div class="acc" id="pdp-acc"></div>
+      </div>
+    </div>
+    <section class="band"><div class="sec-head"><div><span class="eyebrow">You might also like</span><h2 style="font-size:1.6rem">Complete your order</h2></div></div>
+      <div class="grid c4" id="pdp-related"></div>
+    </section>
+  </div>`);
+
+  // accordions (reusable, product-specific)
+  const acc=node.querySelector('#pdp-acc');
+  const sections=[];
+  if(p.boxNote)sections.push(['What’s inside',`<p>${p.boxNote}. ${p.category==='bundle'?'A mixed selection of Big Mum’s savoury flavours, arriving cooked and chilled.':''}</p>`]);
+  if(p.category==='flavour')sections.push(['Flavour &amp; ingredients',`<p>${p.desc}</p>`]);
+  sections.push(['Allergens &amp; dietary',`<p>${p.allergens&&p.allergens.length?'Contains:':'No major allergens declared for this item.'}</p>${p.allergens&&p.allergens.length?`<div class="allergen-grid">${p.allergens.map(a=>`<span class="a">${a}</span>`).join('')}</div>`:''}<p style="margin-top:.6rem">Made in a kitchen that handles gluten, dairy, nuts and other allergens. Always check the packaging for full information.</p>`]);
+  sections.push(['Storage &amp; reheating',`<p>Samosas arrive cooked and chilled, with a shelf life of 3 days refrigerated. To reheat: preheat your oven or air-fryer to 180°C, heat for 6–8 minutes until golden, rest 1–2 minutes, then serve. Suitable for freezing. <a href="#" data-nav="delivery" style="color:var(--terra-deep)">Full instructions →</a></p>`]);
+  sections.push(['Delivery',`<p>Delivered across UK mainland (excluding Northern Ireland and the Scottish Highlands) by DPD, Tuesday to Saturday. Nominated-day delivery £5.95, free over £40. Saturday delivery available (+£3) on orders over £50, ordered by Thursday 9pm.</p>`]);
+  acc.innerHTML=sections.map((s,i)=>`<details ${i===0?'open':''}><summary>${s[0]}</summary><div class="ac-body">${s[1]}</div></details>`).join('');
+
+  // related: chutney + 3 others of different category
+  const related=[CHUTNEY[0],...ALL.filter(x=>x.id!==p.id&&x.category!==p.category&&x.category!=='gift').slice(0,3)].filter(Boolean).slice(0,4);
+  node.querySelector('#pdp-related').innerHTML=related.map(productCard).join('');
+
+  // gallery
+  const main=node.querySelector('#pdp-main');
+  node.querySelector('#pdp-thumbs')&&node.querySelector('#pdp-thumbs').addEventListener('click',e=>{
+    const b=e.target.closest('[data-i]');if(!b)return;main.src=imgs[+b.dataset.i];
+    node.querySelectorAll('#pdp-thumbs button').forEach(x=>x.setAttribute('aria-current',x===b));
+  });
+  // variant
+  const varSel=node.querySelector('#pdp-var');
+  function price(){return selVariant?selVariant.p:p.price;}
+  function refreshPrice(){node.querySelector('#pdp-price').textContent=money(price());node.querySelector('#pdp-add-price').textContent=money(price()*qty);}
+  if(varSel)varSel.addEventListener('change',e=>{selVariant=p.variants.find(v=>v.id===e.target.value);refreshPrice();});
+  // qty
+  const qi=node.querySelector('#q-input');
+  function setQ(v){qty=Math.max(1,Math.min(99,v||1));qi.value=qty;refreshPrice();}
+  node.querySelector('#q-minus').onclick=()=>setQ(qty-1);
+  node.querySelector('#q-plus').onclick=()=>setQ(qty+1);
+  qi.addEventListener('change',()=>setQ(parseInt(qi.value)||1));
+  // add
+  node.querySelector('#pdp-add').onclick=()=>{
+    if(!p.available){toast('This item is currently unavailable');return;}
+    if(p.category==='bundle'&&p.boxes>1){openConfig(p,qty);return;}
+    const vid=selVariant?selVariant.id:p.id;
+    addToCart({key:vid,id:vid,name:p.name+(selVariant?(' ('+selVariant.t+')'):''),price:price(),img:p.img,qty,sub:p.sub||'',custom:false});
+    openCart();
+  };
+  // sticky add for mobile
+  const sticky=el(`<div class="sticky-add" id="sticky-add"><span class="p" id="sticky-price">${money(price())}</span><button class="btn btn-primary" id="sticky-btn">Add to basket</button></div>`);
+  node.appendChild(sticky);
+  sticky.querySelector('#sticky-btn').onclick=()=>node.querySelector('#pdp-add').click();
+  node._stickyRefresh=()=>{sticky.querySelector('#sticky-price').textContent=money(price()*qty);};
+  const origRefresh=refreshPrice;refreshPrice=function(){origRefresh();node._stickyRefresh&&node._stickyRefresh();};
+  return node;
+};
+
+/* =========================================================================
+   VIEW: FLAVOURS (editorial)
+   ========================================================================= */
+VIEWS.flavours=function(){
+  const node=el(`<div>
+    <div class="page-hero"><div class="wrap">
+      <div class="crumbs"><a href="#" data-nav="home">Home</a><span class="sep">/</span><span>Our Flavours</span></div>
+      <h1 style="margin-top:.6rem">Our Flavours</h1>
+      <p>Seven handmade recipes, from the classic Original Veg to the famous Cheeseburger and sweet Choco Bites. Each box holds 10 samosas at £27.</p>
+    </div></div>
+    <section class="band"><div class="wrap">
+      <div class="grid c3" id="flav-full"></div>
+    </div></section>
+  </div>`);
+  node.querySelector('#flav-full').innerHTML=FLAVOURS.map(f=>`
+    <article class="card reveal">
+      <div class="thumb" data-product="${f.id}" role="button" tabindex="0" aria-label="View ${f.name}">
+        <div class="tags">${f.kind==='sweet'?'<span class="chip sweet">Sweet</span>':''}${f.diet.includes('Vegetarian')?'<span class="chip veg">Veg</span>':''}</div>
+        <img src="${f.img}" alt="${f.name} samosas" loading="lazy">
+      </div>
+      <div class="body">
+        <h3 data-product="${f.id}">${f.name}</h3>
+        <p class="desc" style="-webkit-line-clamp:3">${f.desc}</p>
+        <div class="allergen-grid">${f.allergens.map(a=>`<span class="a">${a}</span>`).join('')}</div>
+        <div class="foot"><span class="price">£27 <span class="per">box of 10</span></span><button class="add-btn" data-add="${f.id}">Add</button></div>
+      </div>
+    </article>`).join('');
+  return node;
+};
+
+/* =========================================================================
+   VIEW: BUILD YOUR BOX (prototype — honest labelling)
+   ========================================================================= */
+let bbSize=20,bbSel={};
+VIEWS.builder=function(){
+  FLAVOURS.forEach(f=>{if(bbSel[f.id]===undefined)bbSel[f.id]=0;});
+  const node=el(`<div class="wrap">
+    <div class="crumbs"><a href="#" data-nav="home">Home</a><span class="sep">/</span><span>Build Your Box</span></div>
+    <div class="shop-head"><h1>Build Your Box</h1><p class="muted">Mix and match your favourite flavours. Fill the box exactly, review allergens, and add it to your basket.</p></div>
+    <div class="bb-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+      <div><b>Prototype feature.</b> Per-samosa mixing isn’t a product on the live store yet — it needs a Shopify bundle app to reach checkout (see integration notes). This builder is fully working as a design, and the fixed boxes &amp; single-flavour boxes check out for real today.</div>
+    </div>
+    <div class="builder">
+      <div>
+        <h3 style="font-family:var(--font-d);font-size:1.2rem;margin-bottom:.8rem">1. Choose your box size</h3>
+        <div class="size-tabs" id="bb-sizes">
+          <button data-sz="10"><span class="sz">10</span><small>samosas</small></button>
+          <button data-sz="20"><span class="sz">20</span><small>samosas</small></button>
+          <button data-sz="30"><span class="sz">30</span><small>samosas</small></button>
+        </div>
+        <h3 style="font-family:var(--font-d);font-size:1.2rem;margin:1.4rem 0 .8rem">2. Pick your flavours</h3>
+        <div class="bb-flavs" id="bb-flavs"></div>
+      </div>
+      <div class="bb-panel" id="bb-panel"></div>
+    </div>
+  </div>`);
+
+  const flavWrap=node.querySelector('#bb-flavs');
+  function renderFlavs(){
+    const total=Object.values(bbSel).reduce((a,b)=>a+b,0);
+    flavWrap.innerHTML=FLAVOURS.map(f=>`
+      <div class="bb-flav">
+        <img src="${f.img}" alt="${f.name}">
+        <div class="fi"><b>${f.name}</b><small>${f.kind==='sweet'?'Sweet':'Savoury'}</small></div>
+        <div class="bb-step">
+          <button data-bb="-1" data-id="${f.id}" ${bbSel[f.id]<=0?'disabled':''} aria-label="Fewer ${f.name}">–</button>
+          <span>${bbSel[f.id]}</span>
+          <button data-bb="1" data-id="${f.id}" ${total>=bbSize?'disabled':''} aria-label="More ${f.name}">+</button>
+        </div>
+      </div>`).join('');
+  }
+  function renderPanel(){
+    const total=Object.values(bbSel).reduce((a,b)=>a+b,0);
+    const remaining=bbSize-total;
+    const pct=Math.round((total/bbSize)*100);
+    const price=total*2.7; // £27 / 10 = £2.70 per samosa (derived from live £27 box price)
+    const chosen=FLAVOURS.filter(f=>bbSel[f.id]>0);
+    const allergens=[...new Set(chosen.flatMap(f=>f.allergens))];
+    const valid=total===bbSize&&total>0;
+    node.querySelector('#bb-panel').innerHTML=`
+      <div class="bb-ring">
+        <div class="ring" style="--p:${pct}"><div class="inner"><b>${total}</b><small>of ${bbSize}</small></div></div>
+        <div><div style="font-family:var(--font-d);font-size:1.15rem">Your box</div><div class="bb-summary">${remaining>0?remaining+' to go':(remaining<0?Math.abs(remaining)+' too many':'Box is full!')}</div></div>
+      </div>
+      <div class="bb-list">${chosen.length?chosen.map(f=>`<div class="r"><span>${f.name} ×${bbSel[f.id]}</span><span class="tnum">${money(bbSel[f.id]*2.7)}</span></div>`).join(''):'<span class="muted" style="font-size:.84rem">No flavours picked yet.</span>'}</div>
+      <div class="bb-total"><span>Indicative total<br><small class="muted" style="font-weight:400">based on £27 / 10</small></span><span class="price tnum">${money(price)}</span></div>
+      ${allergens.length?`<div class="bb-allergens"><b>Allergens in your box:</b> ${allergens.join(', ')}. Made in a kitchen handling gluten, dairy &amp; nuts.</div>`:''}
+      <div class="bb-valid ${valid?'ok':'no'}">${valid?'✓ Your box is ready':'Fill the box to exactly '+bbSize+' samosas to continue'}</div>
+      <button class="btn btn-primary btn-block btn-lg" id="bb-add" ${valid?'':'disabled'}>Add box to basket</button>`;
+    node.querySelector('#bb-add').onclick=()=>{
+      if(!valid)return;
+      const flavText=chosen.map(f=>f.name+' ×'+bbSel[f.id]).join(', ');
+      addToCart({key:'custom-'+Date.now(),id:'custom',name:'Custom Box of '+bbSize,price:price,img:chosen[0].img,qty:1,sub:bbSize+' handmade samosas',custom:true,flavText});
+      // reset
+      FLAVOURS.forEach(f=>bbSel[f.id]=0);renderFlavs();renderPanel();openCart();
+    };
+  }
+  const sizeTabs=node.querySelector('#bb-sizes');
+  function renderSizes(){sizeTabs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.sz===bbSize));}
+  sizeTabs.addEventListener('click',e=>{const b=e.target.closest('[data-sz]');if(!b)return;bbSize=+b.dataset.sz;
+    // trim if over
+    let total=Object.values(bbSel).reduce((a,c)=>a+c,0);
+    while(total>bbSize){const f=FLAVOURS.slice().reverse().find(x=>bbSel[x.id]>0);if(!f)break;bbSel[f.id]--;total--;}
+    renderSizes();renderFlavs();renderPanel();});
+  flavWrap.addEventListener('click',e=>{const b=e.target.closest('[data-bb]');if(!b||b.disabled)return;
+    const id=b.dataset.id,d=+b.dataset.bb;const total=Object.values(bbSel).reduce((a,c)=>a+c,0);
+    if(d>0&&total>=bbSize)return;if(d<0&&bbSel[id]<=0)return;
+    bbSel[id]+=d;renderFlavs();renderPanel();});
+  renderSizes();renderFlavs();renderPanel();
+  return node;
+};
+
+/* =========================================================================
+   VIEW: CATERING
+   ========================================================================= */
+VIEWS.catering=function(){
+  const node=el(`<div>
+    <div class="page-hero" style="padding:0;overflow:hidden;position:relative">
+      <div style="position:absolute;inset:0"><img src="${IMG.cater2}" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.9"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(26,16,8,.82),rgba(26,16,8,.35))"></div>
+      <div class="wrap" style="position:relative;padding-block:clamp(2.6rem,7vw,5rem);color:#fff">
+        <span class="eyebrow" style="color:var(--gold)">Catering &amp; events</span>
+        <h1 style="color:#fff;max-width:18ch;font-size:clamp(2.2rem,5.5vw,3.6rem)">Big Mum’s, served fresh at your event</h1>
+        <p style="color:rgba(255,255,255,.88);max-width:46ch;margin-top:.7rem;font-size:1.08rem">From market stalls to weddings — our team travels, sets up on site and serves your guests.</p>
+        <div style="margin-top:1.5rem"><a href="#cater-form" class="btn btn-primary btn-lg">Enquire about your event</a></div>
+      </div>
+    </div>
+    <section class="band"><div class="wrap">
+      <div class="info-grid">
+        <div class="info-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></div><h4>Any occasion</h4><p>Corporate events, private parties, weddings, festivals, conferences, book launches, workshops and more.</p></div>
+        <div class="info-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg></div><h4>We come to you</h4><p>Our kitchen and operations team can travel, set up on site and serve guests at your convenience.</p></div>
+        <div class="info-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l2.5 5 5.5.8-4 3.9 1 5.5L12 15.5 7 18.2l1-5.5-4-3.9 5.5-.8z"/></svg></div><h4>Built around you</h4><p>Tell us your requirements and we’ll work with you to find the right set-up for your guests.</p></div>
+      </div>
+      <div class="grid c3" style="margin:1.5rem 0">
+        <div class="jar" style="border-radius:var(--rad);overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line)"><img src="${IMG.cater1}" alt="Catering set-up" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+        <div class="jar" style="border-radius:var(--rad);overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line)"><img src="${IMG.cater4}" alt="Event service" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+        <div class="jar" style="border-radius:var(--rad);overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line)"><img src="${IMG.office}" alt="Office orders and parties" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+      </div>
+      <div id="cater-form" style="max-width:720px;margin:2.5rem auto 0">
+        <div class="sec-head"><div><span class="eyebrow">Enquire</span><h2>Tell us about your event</h2><p>Share a few details and the team will come back to you with options. No packages or prices are auto-generated — every event is quoted individually.</p></div></div>
+        <div id="cater-form-mount"></div>
+      </div>
+    </div></section>
+  </div>`);
+
+  const mount=node.querySelector('#cater-form-mount');
+  function renderForm(){
+    mount.innerHTML=`<form id="cf" novalidate>
+      <div class="form-grid">
+        <div class="field"><label for="cf-name">Full name <span class="req">*</span></label><input id="cf-name" name="name" autocomplete="name"><span class="err">Please enter your name</span></div>
+        <div class="field"><label for="cf-email">Email <span class="req">*</span></label><input id="cf-email" name="email" type="email" autocomplete="email"><span class="err">Please enter a valid email</span></div>
+        <div class="field"><label for="cf-phone">Phone</label><input id="cf-phone" name="phone" type="tel" autocomplete="tel"><span class="err"></span></div>
+        <div class="field"><label for="cf-type">Event type <span class="req">*</span></label><select id="cf-type" name="type"><option value="">Choose…</option><option>Corporate event</option><option>Private party</option><option>Wedding</option><option>Festival</option><option>Conference / exhibition</option><option>Other</option></select><span class="err">Please choose an event type</span></div>
+        <div class="field"><label for="cf-date">Event date</label><input id="cf-date" name="date" type="date"><span class="err"></span></div>
+        <div class="field"><label for="cf-loc">Location</label><input id="cf-loc" name="loc" placeholder="Town / postcode"><span class="err"></span></div>
+        <div class="field"><label for="cf-guests">Estimated guests</label><input id="cf-guests" name="guests" type="number" min="1" placeholder="e.g. 50"><span class="err"></span></div>
+        <div class="field full"><label for="cf-notes">Additional requirements</label><textarea id="cf-notes" name="notes" placeholder="Tell us anything that would help us plan — dietary needs, timings, set-up…"></textarea><span class="err"></span></div>
+      </div>
+      <div style="margin-top:1.2rem"><button class="btn btn-primary btn-lg" type="submit">Send enquiry</button></div>
+      <p class="muted" style="font-size:.78rem;margin-top:.8rem">Prototype note: this form validates and confirms in-page. Connect it to Big Mum’s inbox or a form service (e.g. Shopify Forms / Klaviyo) before launch — see integration notes.</p>
+    </form>`;
+    const form=mount.querySelector('#cf');
+    form.addEventListener('submit',e=>{
+      e.preventDefault();let ok=true;
+      const checks=[['cf-name',v=>v.trim().length>1],['cf-email',v=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)],['cf-type',v=>!!v]];
+      checks.forEach(([id,fn])=>{const f=document.getElementById(id);const field=f.closest('.field');if(!fn(f.value)){field.classList.add('invalid');ok=false;}else field.classList.remove('invalid');});
+      if(!ok){form.querySelector('.invalid input,.invalid select').focus();return;}
+      const name=document.getElementById('cf-name').value.trim().split(' ')[0];
+      mount.innerHTML=`<div class="form-success"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="26" height="26"><path d="M20 6L9 17l-5-5"/></svg></div><h3>Thanks, ${name}!</h3><p class="muted" style="margin-top:.4rem">Your enquiry has been received. Big Mum’s team will be in touch soon. For anything urgent, email <b>business@bigmumsamosas.com</b>.</p><button class="btn btn-ghost" id="cf-again" style="margin-top:1rem">Send another enquiry</button></div>`;
+      mount.querySelector('#cf-again').onclick=renderForm;
+    });
+    // clear invalid on input
+    form.querySelectorAll('input,select,textarea').forEach(i=>i.addEventListener('input',()=>i.closest('.field').classList.remove('invalid')));
+  }
+  renderForm();
+  return node;
+};
+
+/* =========================================================================
+   VIEW: OUR STORY
+   ========================================================================= */
+VIEWS.story=function(){
+  return el(`<div>
+    <div class="page-hero"><div class="wrap">
+      <div class="crumbs"><a href="#" data-nav="home">Home</a><span class="sep">/</span><span>Our Story</span></div>
+      <span class="eyebrow" style="margin-top:.6rem">Since 2020</span>
+      <h1>Where it all began</h1>
+    </div></div>
+    <section class="band"><div class="wrap">
+      <div class="founder">
+        <div class="pic reveal"><img src="${IMG.life2}" alt="Big Mum’s handmade samosas" loading="lazy"></div>
+        <div class="prose reveal">
+          <h2 style="font-size:clamp(1.8rem,4vw,2.6rem)">Meet Big Mum</h2>
+          <p class="lead" style="font-size:1.12rem;margin:1rem 0">A beloved figure in her community, Sushma Rani Makol — Big Mum — has spent over five decades perfecting the finest, thinnest samosa pastry samosa lovers have ever tasted.</p>
+          <p>Each samosa is folded by hand, with an irresistible range of flavours and fillings. Big Mum takes great pride in her craft, and her reputation has long reached far beyond her local community.</p>
+          <p>Born in the middle of a global pandemic in 2020 and brought to life by Big Mum’s grandchildren, Big Mum’s Samosas set out with one wish: for as many people as possible to experience the wonder and crunch of their grandma’s samosas. Since then, the company has gone from strength to strength — delivering across London and England, stocked in independent grocers, and catering events of every size.</p>
+          <blockquote class="pull">“The finest and thinnest pastry that samosa enthusiasts have ever laid eyes on — or tasted.”</blockquote>
+          <div style="display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem"><button class="btn btn-primary" data-nav="shop">Shop the range</button><button class="btn btn-ghost" data-nav="catering">Catering</button></div>
+        </div>
+      </div>
+    </div></section>
+    <section class="band alt"><div class="wrap">
+      <div class="steps">
+        <div class="step reveal"><span class="n">1970s–</span><h4>Five decades of craft</h4><p>Big Mum makes samosas daily, serving her local community and earning a reputation across London.</p></div>
+        <div class="step reveal"><span class="n">2020</span><h4>Delivered to your door</h4><p>Her grandchildren launch Big Mum’s Samosas so everyone can taste the recipe — handmade, delivered chilled.</p></div>
+        <div class="step reveal"><span class="n">Today</span><h4>Across London &amp; beyond</h4><p>Nationwide delivery, independent stockists and catering for events from offices to weddings.</p></div>
+      </div>
+    </div></section>
+  </div>`);
+};
+
+/* =========================================================================
+   VIEW: DELIVERY & FAQs (+ reheating, postcode checker)
+   ========================================================================= */
+VIEWS.delivery=function(){
+  const node=el(`<div>
+    <div class="page-hero"><div class="wrap">
+      <div class="crumbs"><a href="#" data-nav="home">Home</a><span class="sep">/</span><span>Delivery &amp; FAQs</span></div>
+      <h1 style="margin-top:.6rem">Delivery, reheating &amp; FAQs</h1>
+      <p>Everything you need to get Big Mum’s to your table — especially if you’re ordering for a specific day.</p>
+    </div></div>
+    <section class="band"><div class="wrap" style="display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(1.5rem,4vw,3rem);align-items:start">
+      <div>
+        <span class="eyebrow">Delivery</span>
+        <h2 style="font-size:1.8rem;margin:.3rem 0 .6rem">How delivery works</h2>
+        <p class="muted">We deliver to UK mainland addresses, Tuesday to Saturday, with our courier partner DPD. You’ll get tracking and a delivery notification on the day.</p>
+        <table class="deliv-table">
+          <tr><th>Option</th><th>Cost</th></tr>
+          <tr><td>Nominated-day delivery (Tue–Sat)</td><td>£5.95</td></tr>
+          <tr><td>Nominated-day delivery over £40</td><td>Free</td></tr>
+          <tr><td>Saturday delivery <small class="muted" style="font-weight:400;display:block">Order by Thursday 9pm · on orders over £50</small></td><td>+£3</td></tr>
+        </table>
+        <p class="muted" style="font-size:.86rem">Excludes Northern Ireland and the Scottish Highlands. Delivery dates are subject to availability. For weekend events we recommend choosing Friday delivery. If no one’s home, DPD may leave your parcel in a safe place.</p>
+      </div>
+      <div>
+        <div class="pc-check">
+          <b style="font-family:var(--font-d);font-size:1.2rem">Check your postcode</b>
+          <p class="muted" style="font-size:.86rem;margin-top:.3rem">See if we currently deliver to your area.</p>
+          <form id="pc-form"><input id="pc-input" placeholder="e.g. SW4 7AA" aria-label="Postcode" maxlength="8"><button class="btn btn-primary" type="submit">Check</button></form>
+          <div class="pc-result" id="pc-result" role="status"></div>
+          <p class="muted" style="font-size:.72rem;margin-top:.6rem">Prototype: checks the mainland exclusions only. Final availability and nominated dates are confirmed by Shopify at checkout.</p>
+        </div>
+      </div>
+    </div></section>
+
+    <section class="band alt"><div class="wrap">
+      <div class="info-grid">
+        <div class="info-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a9 9 0 1 0 9 9"/><path d="M12 6v6l4 2"/></svg></div><h4>Reheat in minutes</h4><p>Preheat oven or air-fryer to 180°C. Heat 6–8 minutes until golden, rest 1–2 minutes, then serve.</p></div>
+        <div class="info-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16v13H4zM4 7l2-4h12l2 4M9 11h6"/></svg></div><h4>Storage</h4><p>Arrive cooked &amp; chilled. Shelf life of 3 days refrigerated — or freeze to keep them longer.</p></div>
+        <div class="info-card"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg></div><h4>Tracked by DPD</h4><p>Updates by email and text, plus a day-of notification from DPD so you know when to expect them.</p></div>
+      </div>
+    </div></section>
+
+    <section class="band"><div class="wrap" style="max-width:780px">
+      <div class="sec-head"><div><span class="eyebrow">FAQs</span><h2 style="font-size:1.9rem">Good to know</h2></div></div>
+      <div class="acc" id="faq"></div>
+      <p class="muted" style="margin-top:1.5rem;font-size:.9rem">Still have a question? Email <b>hello@bigmumsamosas.com</b> and the team will help.</p>
+    </div></section>
+  </div>`);
+
+  // postcode checker (real mainland exclusion logic)
+  node.querySelector('#pc-form').addEventListener('submit',e=>{
+    e.preventDefault();
+    const v=node.querySelector('#pc-input').value.trim().toUpperCase().replace(/\s+/g,'');
+    const r=node.querySelector('#pc-result');
+    if(!/^[A-Z]{1,2}\d/.test(v)){r.className='pc-result no';r.textContent='Please enter a valid UK postcode.';return;}
+    const area=(v.match(/^[A-Z]{1,2}/)||[''])[0];
+    const excluded=['BT','IV','HS','KW','ZE','KA27','KA28','PA20','PH'];// NI + Scottish Highlands/Islands (indicative)
+    const isExcluded=excluded.some(x=>v.startsWith(x))||area==='BT';
+    if(isExcluded){r.className='pc-result no';r.textContent='Sorry — we don’t currently deliver to this area (outside UK mainland coverage).';}
+    else{r.className='pc-result ok';r.textContent='✓ Good news — we deliver to '+area+'! Choose your nominated day at checkout.';}
+  });
+  // FAQ
+  const faqs=[
+    ['How do the samosas arrive?','Your samosas arrive already cooked, in temperature-controlled packaging. Just follow the reheating instructions for the best taste.'],
+    ['How do I reheat them?','Preheat your oven or air-fryer to 180°C. Place samosas on a tray (or straight in the air-fryer) and heat for 6–8 minutes until golden brown. Rest for 1–2 minutes, then serve with chutney.'],
+    ['Can I freeze them?','Yes. Big Mum’s samosas are designed to stay fresh when frozen. Refrigerated, they have a shelf life of 3 days.'],
+    ['When will my order arrive?','We deliver Tuesday to Saturday on your nominated day. Once your order is finalised, DPD will send details of when to expect delivery. For weekend events, we recommend choosing Friday.'],
+    ['Do you deliver on Saturdays?','Yes — Saturday delivery is available for a £3 surcharge on orders over £50, placed by Thursday 9pm.'],
+    ['Can I change or cancel my order?','If you need to change or cancel, contact us as quickly as possible at hello@bigmumsamosas.com to improve the chances of a successful change.'],
+    ['My order arrived damaged or wrong — what do I do?','We’re sorry about that. Please email hello@bigmumsamosas.com straight away with your order details and we’ll put it right.'],
+  ];
+  node.querySelector('#faq').innerHTML=faqs.map((f,i)=>`<details ${i===0?'open':''}><summary>${f[0]}</summary><div class="ac-body">${f[1]}</div></details>`).join('');
+  return node;
+};
+
+/* =========================================================================
+   VIEW: CONTACT
+   ========================================================================= */
+VIEWS.contact=function(){
+  const node=el(`<div>
+    <div class="page-hero"><div class="wrap">
+      <div class="crumbs"><a href="#" data-nav="home">Home</a><span class="sep">/</span><span>Contact</span></div>
+      <h1 style="margin-top:.6rem">Get in touch</h1>
+      <p>Questions about an order, catering or stocking Big Mum’s? We’d love to hear from you.</p>
+    </div></div>
+    <section class="band"><div class="wrap">
+      <div class="contact-grid">
+        <div class="contact-cards">
+          <div class="contact-card">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg></span>
+            <div><h4>General enquiries</h4><p>Orders, delivery &amp; everything samosa.</p><a href="mailto:hello@bigmumsamosas.com">hello@bigmumsamosas.com</a></div>
+          </div>
+          <div class="contact-card">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l9-5 9 5v13M9 21v-6h6v6"/></svg></span>
+            <div><h4>Partnerships, press &amp; stockists</h4><p>Work with us or stock Big Mum’s.</p><a href="mailto:business@bigmumsamosas.com">business@bigmumsamosas.com</a></div>
+          </div>
+          <div class="contact-card">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg></span>
+            <div><h4>Catering</h4><p>Planning an event?</p><a href="#" data-nav="catering">Send a catering enquiry →</a></div>
+          </div>
+          <div class="contact-card">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></span>
+            <div><h4>Follow along</h4><p>Find us on Instagram, Facebook &amp; TikTok for new flavours and offers.</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="sec-head"><div><span class="eyebrow">Message us</span><h2 style="font-size:1.7rem">Drop us a line</h2></div></div>
+          <div id="contact-form-mount"></div>
+        </div>
+      </div>
+    </div></section>
+  </div>`);
+  const mount=node.querySelector('#contact-form-mount');
+  function renderForm(){
+    mount.innerHTML=`<form id="ctf" novalidate>
+      <div class="form-grid">
+        <div class="field"><label for="ct-name">Name <span class="req">*</span></label><input id="ct-name" autocomplete="name"><span class="err">Please enter your name</span></div>
+        <div class="field"><label for="ct-email">Email <span class="req">*</span></label><input id="ct-email" type="email" autocomplete="email"><span class="err">Please enter a valid email</span></div>
+        <div class="field full"><label for="ct-subj">Subject</label><input id="ct-subj" placeholder="What’s this about?"></div>
+        <div class="field full"><label for="ct-msg">Message <span class="req">*</span></label><textarea id="ct-msg" placeholder="How can we help?"></textarea><span class="err">Please add a short message</span></div>
+      </div>
+      <div style="margin-top:1.1rem"><button class="btn btn-primary btn-lg" type="submit">Send message</button></div>
+      <p class="muted" style="font-size:.78rem;margin-top:.8rem">Prototype: this form validates and confirms in-page. Connect it to Big Mum’s inbox (Shopify Forms / email service) before launch.</p>
+    </form>`;
+    const form=mount.querySelector('#ctf');
+    form.addEventListener('submit',e=>{
+      e.preventDefault();let ok=true;
+      const checks=[['ct-name',v=>v.trim().length>1],['ct-email',v=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)],['ct-msg',v=>v.trim().length>4]];
+      checks.forEach(([id,fn])=>{const f=document.getElementById(id);const field=f.closest('.field');if(!fn(f.value)){field.classList.add('invalid');ok=false;}else field.classList.remove('invalid');});
+      if(!ok){form.querySelector('.invalid input,.invalid textarea').focus();return;}
+      const name=document.getElementById('ct-name').value.trim().split(' ')[0];
+      mount.innerHTML=`<div class="form-success"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="26" height="26"><path d="M20 6L9 17l-5-5"/></svg></div><h3>Thanks, ${name}!</h3><p class="muted" style="margin-top:.4rem">Your message has been received. We’ll get back to you soon. For anything urgent, email <b>hello@bigmumsamosas.com</b>.</p><button class="btn btn-ghost" id="ct-again" style="margin-top:1rem">Send another message</button></div>`;
+      mount.querySelector('#ct-again').onclick=renderForm;
+    });
+    form.querySelectorAll('input,textarea').forEach(i=>i.addEventListener('input',()=>i.closest('.field').classList.remove('invalid')));
+  }
+  renderForm();
+  return node;
+};
+
+/* =========================================================================
+   FOOTER (static, appended once)
+   ========================================================================= */
+function buildFooter(){
+  const f=el(`<footer><div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img class="logo-light" src="https://bigmumsamosas.com/cdn/shop/files/Logo_Black.png" alt="Big Mum's Samosas">
+        <img class="logo-dark" src="https://bigmumsamosas.com/cdn/shop/files/bms-main-logo-full-white_1x_3240ba63-c49a-4a67-9939-f841cffa0894.png" alt="Big Mum's Samosas" style="display:none">
+        <p>Handmade in London &amp; delivered to your door. Award-winning samosas, folded by hand for over 50 years.</p>
+        <div class="socials">
+          <a href="https://www.instagram.com" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="https://www.facebook.com" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H7v4h3v6h4v-6h3l1-4h-4V8a1 1 0 0 1 1-1z"/></svg></a>
+          <a href="https://www.tiktok.com" aria-label="TikTok" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 4c.5 2.5 2 4 4.5 4.3M15 4v9.5a4 4 0 1 1-4-4"/></svg></a>
+        </div>
+      </div>
+      <div><h5>Shop</h5><a href="#" data-nav="shop">All products</a><a href="#" data-nav="builder">Build your box</a><a href="#" data-nav="flavours">Our flavours</a><a href="#" data-nav="shop" data-cat="seasonal">Seasonal</a></div>
+      <div><h5>Help</h5><a href="#" data-nav="delivery">Delivery &amp; reheating</a><a href="#" data-nav="delivery">FAQs</a><a href="#" data-nav="contact">Contact us</a><span class="fitem">hello@bigmumsamosas.com</span></div>
+      <div><h5>Company</h5><a href="#" data-nav="story">Our story</a><a href="#" data-nav="catering">Catering</a><span class="fitem">business@bigmumsamosas.com</span><span class="fitem muted" style="font-size:.78rem">Press &amp; partnerships</span></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© ${new Date().getFullYear()} Big Mum’s Samosas. Handmade in London.</span>
+      <span>Redesign prototype · prices &amp; content verified from the live store</span>
+    </div>
+  </div></footer>`);
+  // dark logo swap in footer
+  const upd=()=>{const dark=document.documentElement.getAttribute('data-theme')==='dark'||(window.matchMedia('(prefers-color-scheme:dark)').matches&&document.documentElement.getAttribute('data-theme')!=='light');
+    f.querySelector('.foot-brand .logo-light').style.display=dark?'none':'block';
+    f.querySelector('.foot-brand .logo-dark').style.display=dark?'block':'none';};
+  upd();window._footUpd=upd;
+  return f;
+}
+
+/* =========================================================================
+   REVEAL on scroll (from a visible-at-rest baseline via IntersectionObserver;
+   elements already in first viewport are shown immediately)
+   ========================================================================= */
+let io;
+function initReveal(){
+  const els=main.querySelectorAll('.reveal:not(.in)');
+  if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return;}
+  if(!io)io=new IntersectionObserver((ents)=>{ents.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{rootMargin:'0px 0px -8% 0px'});
+  els.forEach(e=>{const r=e.getBoundingClientRect();if(r.top<window.innerHeight*0.92)e.classList.add('in');else io.observe(e);});
+}
+
+/* sticky add visibility on PDP */
+let stickyIO;
+function stickyAddObserver(){
+  const add=document.getElementById('pdp-add');const sticky=document.getElementById('sticky-add');
+  if(!add||!sticky)return;
+  if(stickyIO)stickyIO.disconnect();
+  stickyIO=new IntersectionObserver((e)=>{sticky.classList.toggle('show',!e[0].isIntersecting);},{rootMargin:'-60px 0px 0px 0px'});
+  stickyIO.observe(add);
+}
+
+/* =========================================================================
+   NAV (mobile) + THEME
+   ========================================================================= */
+const navEl=document.getElementById('nav'),menuBtn=document.getElementById('menu-btn');
+function openNav(){navEl.classList.add('open');menuBtn.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';}
+function closeNav(){navEl.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');document.body.style.overflow='';}
+menuBtn.onclick=openNav;document.getElementById('nav-close').onclick=closeNav;
+
+const themeBtn=document.getElementById('theme-btn');
+function currentDark(){const t=document.documentElement.getAttribute('data-theme');if(t)return t==='dark';return window.matchMedia('(prefers-color-scheme:dark)').matches;}
+function setThemeIcon(){const dark=currentDark();document.getElementById('theme-icon').innerHTML=dark
+  ?'<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>'
+  :'<circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>';
+  if(window._footUpd)window._footUpd();}
+try{const st=localStorage.getItem('bms_theme');if(st)document.documentElement.setAttribute('data-theme',st);}catch(e){}
+themeBtn.onclick=()=>{const dark=!currentDark();document.documentElement.setAttribute('data-theme',dark?'dark':'light');try{localStorage.setItem('bms_theme',dark?'dark':'light');}catch(e){}setThemeIcon();};
+window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',setThemeIcon);
+
+/* =========================================================================
+   PROTOTYPE MODAL
+   ========================================================================= */
+const modalOv=document.getElementById('modal-ov');
+function openModal(html){const m=document.getElementById('modal');m.className='modal';m.innerHTML=html+'<div class="mclose"><button class="btn btn-dark" id="modal-x">Got it</button></div>';modalOv.classList.add('open');document.getElementById('modal-x').onclick=closeModal;}
+function closeModal(){modalOv.classList.remove('open');const m=document.getElementById('modal');if(m)m.className='modal';}
+modalOv.addEventListener('click',e=>{if(e.target===modalOv)closeModal();});
+document.getElementById('proto-btn').onclick=()=>openModal(`
+  <h3>About this prototype</h3>
+  <p>This is a clickable redesign of <b>bigmumsamosas.com</b> built for review. It uses the real logo, photography, product names, descriptions, allergens and prices pulled from the live Shopify store.</p>
+  <p><b>What’s real &amp; working:</b></p>
+  <ul>
+    <li>Browsing, filtering, product pages, basket &amp; the box builder</li>
+    <li>Checkout hands off to the <b>real Shopify cart</b> for standard products (opens the live store)</li>
+    <li>Delivery rules, reheating &amp; FAQs verified from the live site</li>
+  </ul>
+  <p><b>What still needs Shopify integration:</b></p>
+  <ul>
+    <li>Custom mix boxes (need a bundle app to reach checkout)</li>
+    <li>Catering form destination &amp; nominated-date / postcode logic</li>
+    <li>Email signup → Big Mum’s marketing platform</li>
+  </ul>
+  <p>Full integration notes are in the accompanying document.</p>`);
+
+/* =========================================================================
+   IMAGE FALLBACK — if a real photo can't load (e.g. inside a sandboxed
+   preview that blocks third-party images), show a branded placeholder.
+   When this file is opened or hosted normally, the real photos load and
+   this never fires.
+   ========================================================================= */
+const PH_PAIRS=[['#F6AD74','#D9772F'],['#F0CBA0','#D4873A'],['#CFE0B8','#5B7A3C'],['#E9D7BE','#8A5A33'],['#F3D3B0','#C9552B']];
+function xmlEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bmsPH(img){
+  if(!img||img.dataset.ph)return; img.dataset.ph='1';
+  let label=(img.getAttribute('alt')||'Big Mum’s').split('—')[0].trim();
+  if(label.length>22)label=label.slice(0,20)+'…';
+  let h=0; for(const ch of label)h=(h*31+ch.charCodeAt(0))>>>0;
+  const [c1,c2]=PH_PAIRS[h%PH_PAIRS.length];
+  const isLogo=/logo|big mum’s samosas$/i.test(img.getAttribute('alt')||'')&&img.closest('.brand,.foot-brand');
+  const svg=isLogo
+    ? `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 44'><text x='4' y='31' font-family='Georgia,serif' font-weight='600' font-size='22' fill='${img.closest('.foot-brand')||document.documentElement.getAttribute('data-theme')==='dark'?'#F4E8D6':'#2A1C12'}'>Big Mum’s</text></svg>`
+    : `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${c1}'/><stop offset='1' stop-color='${c2}'/></linearGradient></defs><rect width='400' height='400' fill='url(%23g)'/><path d='M200 128 L272 256 L128 256 Z' fill='rgba(255,255,255,.2)'/><path d='M200 128 L272 256 L128 256 Z' fill='none' stroke='rgba(255,255,255,.55)' stroke-width='3'/><circle cx='200' cy='205' r='10' fill='rgba(255,255,255,.4)'/><text x='200' y='312' text-anchor='middle' font-family='Georgia,serif' font-size='27' fill='#fff'>${xmlEsc(label)}</text><text x='200' y='340' text-anchor='middle' font-family='sans-serif' font-size='12' letter-spacing='1' fill='rgba(255,255,255,.8)'>BIG MUM’S SAMOSAS</text></svg>`;
+  img.src='data:image/svg+xml;charset=utf8,'+encodeURIComponent(svg).replace(/%2523/g,'%23');
+}
+document.addEventListener('error',e=>{if(e.target&&e.target.tagName==='IMG')bmsPH(e.target);},true);
+
+/* =========================================================================
+   SEASONAL RUNTIME — snow + Christmas popup (only when SEASON==='christmas')
+   ========================================================================= */
+function initSeason(){
+  if(SEASON!=='christmas')return;
+  document.documentElement.classList.add('season-christmas');
+  makeSnow();
+  addXmasLauncher();
+  let seen=false;try{seen=sessionStorage.getItem('bms_xmas_popup')==='1';}catch(e){}
+  if(!seen)setTimeout(openXmasPopup,1500);
+}
+function addXmasLauncher(){
+  if(document.querySelector('.xlaunch'))return;
+  const b=document.createElement('button');
+  b.className='xlaunch';b.type='button';b.setAttribute('aria-label','Open Christmas 10% offer');
+  b.innerHTML='🎁<span class="xl-dot">10%</span>';
+  b.onclick=openXmasPopup;
+  document.body.appendChild(b);
+}
+function makeSnow(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches||document.querySelector('.snow'))return;
+  const wrap=document.createElement('div');wrap.className='snow';wrap.setAttribute('aria-hidden','true');
+  let html='';
+  for(let i=0;i<28;i++){
+    const left=(Math.random()*100).toFixed(1);
+    const size=(Math.random()*10+8).toFixed(1);
+    const dur=(Math.random()*8+9).toFixed(1);
+    const delay=(-Math.random()*dur).toFixed(1);
+    const drift=(Math.random()*70-35).toFixed(0);
+    const op=(Math.random()*0.5+0.4).toFixed(2);
+    html+=`<i style="left:${left}%;font-size:${size}px;opacity:${op};--drift:${drift}px;animation-duration:${dur}s;animation-delay:${delay}s">❄</i>`;
+  }
+  wrap.innerHTML=html;document.body.appendChild(wrap);
+}
+function openXmasPopup(){
+  const modal=document.getElementById('modal');
+  modal.className='modal xmas-modal';
+  modal.innerHTML=`<div class="xpop">
+    <button id="xpop-x" aria-label="Close" style="position:absolute;top:8px;right:12px;font-size:1.1rem;color:#fff;background:rgba(0,0,0,.25);width:28px;height:28px;border-radius:50%;z-index:3">✕</button>
+    <div class="xpop-img"><img src="${IMG.life1}" alt="Big Mum’s handmade samosas"><span class="xpop-badge">🎄 Christmas offer</span></div>
+    <h3>Get <span class="pc">10% off</span> your first order</h3>
+    <p>Join Big Mum’s list for festive flavours and gift ideas — and unwrap 10% off this Christmas.</p>
+    <form id="xpop-form" novalidate>
+      <input type="email" id="xpop-email" placeholder="your@email.com" aria-label="Email address" required>
+      <button class="btn btn-gold" type="submit">Unwrap my code</button>
+    </form>
+    <div id="xpop-reveal"></div>
+    <p class="fine">One use per customer on your first order.</p>
+  </div>`;
+  modalOv.classList.add('open');
+  try{sessionStorage.setItem('bms_xmas_popup','1');}catch(e){}
+  modal.querySelector('#xpop-x').onclick=closeModal;
+  modal.querySelector('#xpop-form').addEventListener('submit',e=>{
+    e.preventDefault();
+    const em=modal.querySelector('#xpop-email');
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value)){em.focus();return;}
+    modal.querySelector('#xpop-form').style.display='none';
+    modal.querySelector('#xpop-reveal').innerHTML=`<div class="xpop-code"><small>Your code</small><div class="code">${XMAS_CODE}</div><button id="xpop-copy">Copy code</button></div><p style="color:#ffd98a;font-weight:600;margin-top:.7rem">🎁 You’re on the list — happy Christmas!</p>`;
+    const cp=modal.querySelector('#xpop-copy');
+    cp.onclick=()=>{if(navigator.clipboard){navigator.clipboard.writeText(XMAS_CODE).then(()=>cp.textContent='Copied ✓').catch(()=>cp.textContent=XMAS_CODE);}else cp.textContent=XMAS_CODE;};
+  });
+}
+
+/* =========================================================================
+   BOOT
+   ========================================================================= */
+renderAnn();
+document.getElementById('main').after(buildFooter());
+setThemeIcon();
+renderCart();
+initSeason();
+// open from hash if valid view
+let startView='home';
+try{const h=(location.hash||'').replace('#','');if(h&&VIEWS[h])startView=h;}catch(e){}
+go(startView);
+
+</script>
